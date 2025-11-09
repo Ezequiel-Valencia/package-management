@@ -58,6 +58,12 @@ class Yq(CLIPackage):
         PackageManager.SNAP : "yq"
     }
 
+# https://github.com/sst/opencode, CLI based code editor that is open source
+class OpenCode(CLIPackage):
+    package_dict: dict[PackageManager, str] = {
+        PackageManager.BREW  : "opencode"
+    }
+
 
 #!----- Interesting ---------!#
 # Easier curl for APIs, # https://github.com/httpie/cli
