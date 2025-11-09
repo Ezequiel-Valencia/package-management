@@ -3,6 +3,11 @@ run: ##
 	@echo "🚀 Installing apps."
 	@python3 main.py
 
+.PHONY: publish
+publish: ##
+	@echo "🚀 Publishing Package."
+	@./publish.sh
+
 .PHONY: check
 check: ## Run code quality tools.
 	@echo "🚀 Checking lock file consistency with 'pyproject.toml'"
