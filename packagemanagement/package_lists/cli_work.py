@@ -1,4 +1,4 @@
-from src.type.packages import PackageManager, CLIPackage
+from packagemanagement.type.packages import PackageManager, CLIPackage
 
 
 class Htop(CLIPackage):

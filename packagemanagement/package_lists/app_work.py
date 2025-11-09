@@ -1,4 +1,4 @@
-from src.type.packages import PackageManager, GUIPackage
+from packagemanagement.type.packages import PackageManager, GUIPackage
 
 
 class VSCodium(GUIPackage):
