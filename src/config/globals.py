@@ -1,4 +1,4 @@
-from type.packages import RankedManager, PackageType, PackageManager
+from src.type.packages import PackageType, PackageManager
 
 # _cli_rankings: list[RankedManager] = []
 # _gui_rankings: list[RankedManager] = []

@@ -1,13 +1,11 @@
-import io
 import subprocess
 import inspect
-import tempfile
 
-from config.globals import set_ordered_managers, get_ordered_managers
+from src.config.globals import set_ordered_managers, get_ordered_managers
 from typing import IO
 from types import ModuleType
-from type.packages import Package, PackageManager, RankedManager, PackageType
-from package_lists import media, social, cli_work, app_work
+from src.type.packages import Package, PackageManager, PackageType
+from src.package_lists import media, social, cli_work, app_work
 from getpass import getpass
 from logging import getLogger
 
