@@ -26,7 +26,10 @@ class PackageManager(Enum):
             case PackageManager.SNAP:
                 return f"snap install {package_name}"
             case PackageManager.BREW:
-                return f"brew install {package_name}"
+                args = ""
+                if isinstance(package, GUIPackage):
+                    args += "--cask "
+                return f"brew install {args}{package_name}"
             case _:
                 raise RuntimeError(f"Provided incorrect manager: {package_manger.name}")
 
