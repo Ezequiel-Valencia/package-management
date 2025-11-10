@@ -3,18 +3,21 @@ from packagemanagement.type.packages import PackageManager, CLIPackage
 
 class Htop(CLIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.APT : "htop"
+        PackageManager.APT : "htop",
+        PackageManager.BREW: "htop"
     }
 
 class Bat(CLIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.APT : "bat"
+        PackageManager.APT : "bat",
+        PackageManager.BREW: "bat"
     }
 
 # Fuzzy find in terminal, https://github.com/junegunn/fzf
 class Fzf(CLIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.APT : "fzf"
+        PackageManager.APT : "fzf",
+        PackageManager.BREW: "fzf"
     }
 
 # Better ls, https://github.com/eza-community/eza
@@ -32,13 +35,15 @@ class DuDust(CLIPackage):
 # Better df, https://github.com/muesli/duf
 class Duf(CLIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.APT : "duf"
+        PackageManager.APT : "duf",
+        PackageManager.BREW: "duf"
     }
 
 # Better find, https://github.com/sharkdp/fd
 class FdFind(CLIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.APT : "fd-find"
+        PackageManager.APT : "fd-find",
+        PackageManager.BREW: "fd"
     }
 
 # Better grep, https://github.com/BurntSushi/ripgrep
@@ -55,7 +60,8 @@ class Tldr(CLIPackage):
 
 class Yq(CLIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.SNAP : "yq"
+        PackageManager.SNAP : "yq",
+        PackageManager.BREW: "yq"
     }
 
 # https://github.com/sst/opencode, CLI based code editor that is open source

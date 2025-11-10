@@ -3,7 +3,8 @@ from packagemanagement.type.packages import PackageManager, GUIPackage
 
 class VSCodium(GUIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.NIX : "nixpkgs.vscodium"
+        PackageManager.NIX : "nixpkgs.vscodium",
+        PackageManager.BREW: "vscodium"
     }
 
 # class Lens(Package):
@@ -13,12 +14,14 @@ class VSCodium(GUIPackage):
 
 class Gitkraken(GUIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.FLATPAK : "com.axosoft.GitKraken"
+        PackageManager.FLATPAK : "com.axosoft.GitKraken",
+        PackageManager.BREW: "gitkraken"
     }
 
 class IntelliJ(GUIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community"
+        PackageManager.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community",
+        PackageManager.BREW: "intellij-idea"
     }
 
 
