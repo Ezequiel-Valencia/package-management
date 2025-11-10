@@ -19,7 +19,7 @@ def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO
         if result.stdout != b"":
             logger.info(f"==== {package.get_package_name(pref)} seems to already be installed with manager {pref}. ===")
         elif result.stderr != b"":
-            raise RuntimeError(f"Error installing {package.get_package_name(pref)} when using manager {pref}")
+            raise RuntimeError(f"Error checking package {package.get_package_name(pref)} when using manager {pref}: {result.stderr}")
         else:
             command = PackageManager.get_install_command(pref, package)
             kwargs = {"args": command, "check": True, "stderr": er_log, "stdout": inf_log}
