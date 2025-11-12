@@ -24,6 +24,12 @@ class IntelliJ(GUIPackage):
         PackageManager.BREW: "intellij-idea"
     }
 
+class Ghostty(GUIPackage):
+    package_dict: dict[PackageManager, str] = {
+        PackageManager.SNAP : "ghostty",
+        PackageManager.BREW: "ghostty"
+    }
+
 
 #!----- Interesting ---------!#
 # Remote IDE tool, https://github.com/loft-sh/devpod
