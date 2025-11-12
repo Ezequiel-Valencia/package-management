@@ -26,7 +26,7 @@ class IntelliJ(GUIPackage):
 
 class Ghostty(GUIPackage):
     package_dict: dict[PackageManager, str] = {
-        PackageManager.SNAP : "ghostty",
+        PackageManager.SNAP_CLASSIC : "ghostty",
         PackageManager.BREW: "ghostty"
     }
 

@@ -25,6 +25,8 @@ class PackageManager(Enum):
                 return f"flatpak install -y {package_name}"
             case PackageManager.SNAP:
                 return f"snap install {package_name}"
+            case PackageManager.SNAP_CLASSIC:
+                return f"snap install {package_name} --classic"
             case PackageManager.BREW:
                 args = ""
                 if isinstance(package, GUIPackage):
@@ -44,6 +46,8 @@ class PackageManager(Enum):
             case PackageManager.FLATPAK:
                 return f"flatpak list | grep {package_name}"
             case PackageManager.SNAP:
+                return f"snap list | grep {package_name}"
+            case PackageManager.SNAP_CLASSIC:
                 return f"snap list | grep {package_name}"
             case PackageManager.BREW:
                 return f"brew list | grep {package_name}"
