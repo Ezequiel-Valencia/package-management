@@ -11,6 +11,7 @@ class PackageManager(Enum):
     APT = "apt"
     FLATPAK = "flatpak"
     SNAP = "snap"
+    SNAP_CLASSIC = "snap"
     BREW = "brew"
 
     @staticmethod
