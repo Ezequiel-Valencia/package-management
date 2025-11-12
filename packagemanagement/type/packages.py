@@ -89,6 +89,9 @@ class Package:
 
     def allow_sudo(self):
         return True
+    
+    def configure(self):
+        pass
 
 
 class GUIPackage(Package):
