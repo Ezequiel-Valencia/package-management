@@ -10,16 +10,17 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
-def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO):
+def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO, change_log: IO):
     ordered_managers = get_ordered_managers()
     for package in p_list:
         pref = package.which_package_manager(ordered_managers=ordered_managers)
         check_command = PackageManager.get_check_command(pref, package)
         result = subprocess.run(check_command, shell=True, capture_output=True)
+        package_name = package.get_package_name(pref)
         if result.stdout != b"":
-            logger.info(f"==== {package.get_package_name(pref)} seems to already be installed with manager {pref}. ===")
+            logger.info(f"==== {package_name} seems to already be installed with manager {pref}. ===")
         elif result.stderr != b"":
-            raise RuntimeError(f"Error checking package {package.get_package_name(pref)} when using manager {pref}: {result.stderr}")
+            raise RuntimeError(f"Error checking package {package_name} when using manager {pref}: {result.stderr}")
         else:
             command = PackageManager.get_install_command(pref, package)
             kwargs = {"args": command, "check": True, "stderr": er_log, "stdout": inf_log}
@@ -30,6 +31,7 @@ def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO
                 kwargs["input"] = passwd
 
             logger.info(subprocess.run(**kwargs, shell=True, text=True))
+            change_log.write(f"{package_name} was installed using {pref}")
 
 def list_packages_to_install(mod: ModuleType) -> list[Package]:
     # Iterate through all classes defined in the module
@@ -49,9 +51,10 @@ def runner(allowed_managers_for_each_type: dict[PackageType, list[PackageManager
 
     with open("err.log", "w+") as err_log:
         with open("info.log", "w+") as info_log:
-            for m in modules_with_packages:
-                packs = list_packages_to_install(m)
-                install_packages(packs, er_log=err_log, inf_log=info_log, passwd=password)
+            with open("change.log", "w+") as change_log:
+                for m in modules_with_packages:
+                    packs = list_packages_to_install(m)
+                    install_packages(packs, er_log=err_log, inf_log=info_log, passwd=password, change_log=change_log)
 
 
 
