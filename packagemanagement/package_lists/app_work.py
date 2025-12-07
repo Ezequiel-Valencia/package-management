@@ -24,11 +24,19 @@ class IntelliJ(GUIPackage):
         PackageManager.BREW: "intellij-idea"
     }
 
+
 class Ghostty(GUIPackage):
     package_dict: dict[PackageManager, str] = {
         PackageManager.SNAP_CLASSIC : "ghostty",
         PackageManager.BREW: "ghostty"
     }
+
+    def configure():
+        # So that when ssh into various nodes, the XTerm is known
+        inserted_into_bash = """
+        if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
+            export TERM=xterm-256color
+        fi"""
 
 
 #!----- Interesting ---------!#
