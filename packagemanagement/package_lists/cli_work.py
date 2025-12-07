@@ -81,6 +81,14 @@ class OpenCode(CLIPackage):
             PackageManager.BREW  : "opencode"
         }
 
+class DirEnv(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManager, str] = {
+            PackageManager.BREW  : "direnv",
+            PackageManager.APT: "direnv"
+        }
+
+
 
 #!----- Interesting ---------!#
 # Easier curl for APIs, # https://github.com/httpie/cli
