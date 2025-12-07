@@ -2,10 +2,11 @@ from packagemanagement.type.packages import PackageManager, GUIPackage
 
 
 class VSCodium(GUIPackage):
-    package_dict: dict[PackageManager, str] = {
-        PackageManager.NIX : "nixpkgs.vscodium",
-        PackageManager.BREW: "vscodium"
-    }
+    def __init__(self):
+        self.package_dict: dict[PackageManager, str] = {
+            PackageManager.NIX : "nixpkgs.vscodium",
+            PackageManager.BREW: "vscodium"
+        }
 
 # class Lens(Package):
 #     package_dict: dict[PackageManager, str] = {
@@ -13,23 +14,28 @@ class VSCodium(GUIPackage):
 #     }
 
 class Gitkraken(GUIPackage):
-    package_dict: dict[PackageManager, str] = {
-        PackageManager.FLATPAK : "com.axosoft.GitKraken",
-        PackageManager.BREW: "gitkraken"
-    }
+    def __init__(self):
+        self.package_dict: dict[PackageManager, str] = {
+            PackageManager.FLATPAK : "com.axosoft.GitKraken",
+            PackageManager.BREW: "gitkraken"
+        }
 
 class IntelliJ(GUIPackage):
-    package_dict: dict[PackageManager, str] = {
-        PackageManager.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community",
-        PackageManager.BREW: "intellij-idea"
-    }
+
+    def __init__(self):
+        self.package_dict: dict[PackageManager, str] = {
+            PackageManager.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community",
+            PackageManager.BREW: "intellij-idea"
+        }
 
 
 class Ghostty(GUIPackage):
-    package_dict: dict[PackageManager, str] = {
-        PackageManager.SNAP_CLASSIC : "ghostty",
-        PackageManager.BREW: "ghostty"
-    }
+
+    def __init__(self):
+        self.package_dict: dict[PackageManager, str] = {
+            PackageManager.SNAP_CLASSIC : "ghostty",
+            PackageManager.BREW: "ghostty"
+        }
 
     def configure():
         # So that when ssh into various nodes, the XTerm is known

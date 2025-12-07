@@ -69,8 +69,10 @@ class RankedManager:
 #
 
 class Package:
-    package_dict: dict = {}
-    p_type: PackageType
+
+    def __init__(self):
+        self.package_dict: dict = {}
+        self.p_type: PackageType
     
     def which_package_manager(self, ordered_managers: dict[PackageType, list[PackageManager]]) -> PackageManager:
         keys = self.package_dict.keys()
