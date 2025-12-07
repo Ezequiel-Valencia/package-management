@@ -21,7 +21,7 @@ class PackageManager(Enum):
             case PackageManager.NIX:
                 return f"nix-env -iA {package_name}"
             case PackageManager.APT:
-                return f"apt install -y {package_name}"
+                return f"apt-get install -y {package_name}"
             case PackageManager.FLATPAK:
                 return f"flatpak install -y {package_name}"
             case PackageManager.SNAP:
@@ -43,7 +43,7 @@ class PackageManager(Enum):
             case PackageManager.NIX:
                 return f"nix-env --query --installed | grep {package_name.split('.')[1]}" # This is because pacs are formatted nix.{actual name}
             case PackageManager.APT:
-                return f"apt list | grep {package_name}"
+                return f"dpkg -l | grep {package_name}"
             case PackageManager.FLATPAK:
                 return f"flatpak list | grep {package_name}"
             case PackageManager.SNAP:
