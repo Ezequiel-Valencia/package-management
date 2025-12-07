@@ -31,6 +31,7 @@ def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO
                 kwargs["input"] = passwd
 
             logger.info(subprocess.run(**kwargs, shell=True, text=True))
+            package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
 
 def list_packages_to_install(mod: ModuleType) -> list[Package]:

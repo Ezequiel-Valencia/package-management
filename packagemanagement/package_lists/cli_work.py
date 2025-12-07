@@ -1,5 +1,11 @@
 from packagemanagement.type.packages import PackageManager, CLIPackage
+from sys import platform
+import shutil
+import datetime
+import pathlib
+from logging import getLogger
 
+logger = getLogger(__name__)
 
 class Htop(CLIPackage):
     def __init__(self):
@@ -87,6 +93,28 @@ class DirEnv(CLIPackage):
             PackageManager.BREW  : "direnv",
             PackageManager.APT: "direnv"
         }
+    
+    def configure(self):
+        hook = ''
+        shell_file = ''
+        home = pathlib.Path.home()
+        if 'linux' in platform:
+            hook = 'eval "$(direnv hook bash)"'
+            shell_file = f'{home}/.bashrc'
+        elif 'darwin' in platform:
+            hook = 'eval "$(direnv hook zsh)"'
+            shell_file = f'{home}/.zshrc'
+        else:
+            raise RuntimeError(f"Config not support for os {platform}")
+
+        with open(shell_file, "r") as f:
+            bash_content = f.read()
+        
+        if hook not in bash_content:
+            with open(shell_file, "a+") as f:
+                logger.info(f"Configuring {shell_file} for direnv hook.")
+                shutil.copy(shell_file, f'{shell_file}_{datetime.datetime.now()}')
+                f.write(f'\n{hook}\n')
 
 
 
