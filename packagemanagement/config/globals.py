@@ -1,4 +1,5 @@
-from packagemanagement.type.packages import PackageType, PackageManager
+from packagemanagement.type.package_managers import PackageManagerEnum
+from packagemanagement.type.packages import PackageType
 
 # _cli_rankings: list[RankedManager] = []
 # _gui_rankings: list[RankedManager] = []
@@ -53,15 +54,15 @@ import logging
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
 
-_ordered_managers: dict[PackageType, list[PackageManager]] = {}
-def set_ordered_managers(ordered_managers: dict[PackageType, list[PackageManager]]):
+_ordered_managers: dict[PackageType, list[PackageManagerEnum]] = {}
+def set_ordered_managers(ordered_managers: dict[PackageType, list[PackageManagerEnum]]):
     global _ordered_managers
     for pt in PackageType:
         if pt not in ordered_managers.keys():
             raise KeyError(f"There is no entry for package type: {pt}. Your ordered managers are {ordered_managers}")
     _ordered_managers = ordered_managers
 
-def get_ordered_managers() -> dict[PackageType, list[PackageManager]]:
+def get_ordered_managers() -> dict[PackageType, list[PackageManagerEnum]]:
     global _ordered_managers
     return _ordered_managers
 

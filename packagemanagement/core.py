@@ -4,7 +4,8 @@ import inspect
 from packagemanagement.config.globals import set_ordered_managers, get_ordered_managers
 from typing import IO
 from types import ModuleType
-from packagemanagement.type.packages import Package, PackageManager, PackageType
+from packagemanagement.type.packages import Package, PackageType
+from packagemanagement.type.package_managers import PackageManagerEnum, PackageManager
 from getpass import getpass
 from logging import getLogger
 
@@ -13,8 +14,8 @@ logger = getLogger(__name__)
 def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO, change_log: IO):
     ordered_managers = get_ordered_managers()
     for package in p_list:
-        pref = package.which_package_manager(ordered_managers=ordered_managers)
-        check_command = PackageManager.get_check_command(pref, package)
+        pref: PackageManagerEnum = package.which_package_manager(ordered_managers=ordered_managers)
+        check_command = pref.value.get_check_command(package)
         result = subprocess.run(check_command, shell=True, capture_output=True)
         package_name = package.get_package_name(pref)
         if result.stdout != b"":
@@ -22,10 +23,10 @@ def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO
         elif result.stderr != b"":
             raise RuntimeError(f"Error checking package {package_name} when using manager {pref}: {result.stderr}")
         else:
-            command = PackageManager.get_install_command(pref, package)
+            command = pref.value.get_install_command(package)
             kwargs = {"args": command, "check": True, "stderr": er_log, "stdout": inf_log}
 
-            sudo_required_pm = {PackageManager.APT, PackageManager.SNAP}
+            sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP}
             if package.allow_sudo() and pref in sudo_required_pm:
                 kwargs["args"] = "sudo -S " + command
                 kwargs["input"] = passwd
@@ -46,7 +47,7 @@ def list_packages_to_install(mod: ModuleType) -> list[Package]:
     return ps
 
 
-def runner(allowed_managers_for_each_type: dict[PackageType, list[PackageManager]], modules_with_packages: list[ModuleType]):
+def runner(allowed_managers_for_each_type: dict[PackageType, list[PackageManagerEnum]], modules_with_packages: list[ModuleType]):
     set_ordered_managers(ordered_managers=allowed_managers_for_each_type)
     password = getpass("Sudo Password: ")
 
