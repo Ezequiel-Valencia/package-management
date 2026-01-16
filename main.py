@@ -1,4 +1,5 @@
-from packagemanagement.type.packages import PackageType, PackageManager
+from packagemanagement.type.packages import PackageType
+from packagemanagement.type.package_managers import PackageManagerEnum
 from types import ModuleType
 from packagemanagement.package_lists import app_work, cli_work
 from packagemanagement.core import runner

@@ -1,4 +1,5 @@
-from packagemanagement.type.packages import PackageManager, CLIPackage
+from packagemanagement.type.packages import CLIPackage
+from packagemanagement.type.package_managers import PackageManagerEnum
 from sys import platform
 import shutil
 import datetime
@@ -9,89 +10,89 @@ logger = getLogger(__name__)
 
 class Htop(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.APT : "htop",
-            PackageManager.BREW: "htop"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.APT : "htop",
+            PackageManagerEnum.BREW: "htop"
         }
 
 class Bat(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.APT : "bat",
-            PackageManager.BREW: "bat"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.APT : "bat",
+            PackageManagerEnum.BREW: "bat"
         }
 
 # Fuzzy find in terminal, https://github.com/junegunn/fzf
 class Fzf(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.APT : "fzf",
-            PackageManager.BREW: "fzf"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.APT : "fzf",
+            PackageManagerEnum.BREW: "fzf"
         }
 
 # Better ls, https://github.com/eza-community/eza
 class Eza(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.BREW : "eza"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW : "eza"
         }
 
 # Better du, https://github.com/bootandy/dust
 class DuDust(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.BREW : "dust"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW : "dust"
         }
 
 # Better df, https://github.com/muesli/duf
 class Duf(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.APT : "duf",
-            PackageManager.BREW: "duf"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.APT : "duf",
+            PackageManagerEnum.BREW: "duf"
         }
 
 # Better find, https://github.com/sharkdp/fd
 class FdFind(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.APT : "fd-find",
-            PackageManager.BREW: "fd"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.APT : "fd-find",
+            PackageManagerEnum.BREW: "fd"
         }
 
 # Better grep, https://github.com/BurntSushi/ripgrep
 class Ripgrep(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.BREW : "ripgrep"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW : "ripgrep"
         }
 
 # Better man pages, https://github.com/tldr-pages/tldr
 class Tldr(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.BREW : "tlrc"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW : "tlrc"
         }
 
 class Yq(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.SNAP : "yq",
-            PackageManager.BREW: "yq"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.SNAP : "yq",
+            PackageManagerEnum.BREW: "yq"
         }
 
 # https://github.com/sst/opencode, CLI based code editor that is open source
 class OpenCode(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.BREW  : "opencode"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW  : "opencode"
         }
 
 class DirEnv(CLIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.BREW  : "direnv",
-            PackageManager.APT: "direnv"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW  : "direnv",
+            PackageManagerEnum.APT: "direnv"
         }
     
     def configure(self):

@@ -1,43 +1,44 @@
-from packagemanagement.type.packages import PackageManager, GUIPackage
+from packagemanagement.type.package_managers import PackageManagerEnum
+from packagemanagement.type.packages import GUIPackage
 
 
 class VSCodium(GUIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.NIX : "nixpkgs.vscodium",
-            PackageManager.BREW: "vscodium"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.NIX : "nixpkgs.vscodium",
+            PackageManagerEnum.BREW: "vscodium"
         }
 
 # class Lens(Package):
-#     package_dict: dict[PackageManager, str] = {
-#         PackageManager.NIX : "nixpkgs.lens"
+#     package_dict: dict[PackageManagerEnum, str] = {
+#         PackageManagerEnum.NIX : "nixpkgs.lens"
 #     }
 
 class Gitkraken(GUIPackage):
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.FLATPAK : "com.axosoft.GitKraken",
-            PackageManager.BREW: "gitkraken"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.FLATPAK : "com.axosoft.GitKraken",
+            PackageManagerEnum.BREW: "gitkraken"
         }
 
 class IntelliJ(GUIPackage):
 
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community",
-            PackageManager.BREW: "intellij-idea"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community",
+            PackageManagerEnum.BREW: "intellij-idea"
         }
 
 
 class Ghostty(GUIPackage):
 
     def __init__(self):
-        self.package_dict: dict[PackageManager, str] = {
-            PackageManager.SNAP_CLASSIC : "ghostty",
-            PackageManager.BREW: "ghostty"
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.SNAP_CLASSIC : "ghostty",
+            PackageManagerEnum.BREW: "ghostty"
         }
 
-    def configure():
+    def configure(self):
         # So that when ssh into various nodes, the XTerm is known
         inserted_into_bash = """
         if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
