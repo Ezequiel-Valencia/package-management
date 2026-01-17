@@ -5,6 +5,9 @@ import shutil
 import datetime
 import pathlib
 from logging import getLogger
+import subprocess
+import os
+from pathlib import Path
 
 logger = getLogger(__name__)
 
@@ -87,6 +90,26 @@ class OpenCode(CLIPackage):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW  : "opencode"
         }
+
+
+class NeoVim(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW : "neovim"
+        }
+
+    def configure(self):
+        config_to_clone = "https://github.com/Ezequiel-Valencia/LazyVimStarter.git"
+        neo_vim_config_dir = os.path.join(Path.home(), ".config", "nvim")
+
+        # Clean slate every time following git instead
+        if Path(neo_vim_config_dir).exists():
+            shutil.rmtree(neo_vim_config_dir)
+        os.mkdir(neo_vim_config_dir)
+        subprocess.run(
+            ['git', 'clone', config_to_clone, neo_vim_config_dir]
+        )
+
 
 class DirEnv(CLIPackage):
     def __init__(self):
