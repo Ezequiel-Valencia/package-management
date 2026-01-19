@@ -139,6 +139,14 @@ class DirEnv(CLIPackage):
                 logger.info(f"Configuring {shell_file} for direnv hook.")
                 shutil.copy(shell_file, f'{shell_file}_{datetime.datetime.now()}')
                 f.write(f'\n{hook}\n')
+        else:
+            logger.info(" DirEnv has already been configured. ")
+
+
+
+
+# For when I do Tmux: https://youtu.be/jcrE1qrm_e8?si=N85YvBCLy-odLRSY
+
 
 
 

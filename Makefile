@@ -1,7 +1,17 @@
 .PHONY: run
 run: ##
 	@echo "🚀 Installing apps."
-	@python3 main.py
+	@python3 main.py install
+
+.PHONY: update
+update: ##
+	@echo "🚀 Updating apps."
+	@python3 main.py update
+
+.PHONY: configure
+configure: ##
+	@echo "🚀 Configuring apps."
+	@python3 main.py configure
 
 .PHONY: publish
 publish: ##

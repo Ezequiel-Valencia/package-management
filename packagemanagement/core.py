@@ -34,6 +34,12 @@ def install_packages(p_list: list[Package], passwd: str, er_log: IO, inf_log: IO
             logger.info(subprocess.run(**kwargs, shell=True, text=True))
             package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
+            
+def config_all_packages(modules_with_packages: list[Package]):
+    for m in modules_with_packages:
+        packs = list_packages_to_install(m)
+        for p in packs:
+            p.configure()
 
 def list_packages_to_install(mod: ModuleType) -> list[Package]:
     # Iterate through all classes defined in the module
