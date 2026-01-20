@@ -13,6 +13,14 @@ class PackageManager(ABC):
     def get_check_command(self, package: "Package") -> str:
         pass
 
+    @abstractmethod
+    def get_update_command(self) -> str:
+        pass
+
+    @abstractmethod
+    def get_upgrade_command(self) -> str:
+        pass
+
 
 class NixPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
@@ -23,6 +31,13 @@ class NixPackageManager(PackageManager):
         package_name = package.get_package_name(PackageManagerEnum.NIX)
         return f"nix-env --query --installed | grep {package_name.split('.')[1]}"  # This is because pacs are formatted nix.{actual name}
 
+    def get_update_command(self) -> str:
+        return ""
+
+    def get_upgrade_command(self) -> str:
+        return ""
+
+
 class APTPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
         package_name = package.get_package_name(PackageManagerEnum.APT)
@@ -31,6 +46,13 @@ class APTPackageManager(PackageManager):
     def get_check_command(self, package: "Package") -> str:
         package_name = package.get_package_name(PackageManagerEnum.APT)
         return f"dpkg -l | grep {package_name}"
+
+    def get_update_command(self) -> str:
+        return "apt-get update"
+
+    def get_upgrade_command(self) -> str:
+        return "apt-get upgrade"
+
 
 class SnapPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
@@ -41,6 +63,13 @@ class SnapPackageManager(PackageManager):
         package_name = package.get_package_name(PackageManagerEnum.SNAP)
         return f"snap list | grep {package_name}"
 
+    def get_update_command(self) -> str:
+        return "snap update"
+
+    def get_upgrade_command(self) -> str:
+        return "snap upgrade"
+
+
 class FlatPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
         package_name = package.get_package_name(PackageManagerEnum.FLATPAK)
@@ -50,6 +79,13 @@ class FlatPackageManager(PackageManager):
         package_name = package.get_package_name(PackageManagerEnum.FLATPAK)
         return f"flatpak list | grep {package_name}"
 
+    def get_update_command(self) -> str:
+        return "flatpak update"
+
+    def get_upgrade_command(self) -> str:
+        return "flatpak upgrade"
+
+
 class SnapClassicPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
         package_name = package.get_package_name(PackageManagerEnum.SNAP_CLASSIC)
@@ -58,6 +94,13 @@ class SnapClassicPackageManager(PackageManager):
     def get_check_command(self, package: "Package") -> str:
         package_name = package.get_package_name(PackageManagerEnum.SNAP_CLASSIC)
         return f"snap list | grep {package_name}"
+
+    def get_update_command(self) -> str:
+        return "snap update"
+
+    def get_upgrade_command(self) -> str:
+        return "snap upgrade"
+
 
 class BrewPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
@@ -70,6 +113,13 @@ class BrewPackageManager(PackageManager):
     def get_check_command(self, package: "Package") -> str:
         package_name = package.get_package_name(PackageManagerEnum.BREW)
         return f"brew list | grep {package_name}"
+
+    def get_update_command(self) -> str:
+        return "brew update"
+
+    def get_upgrade_command(self) -> str:
+        return "brew upgrade"
+
 
 class PackageManagerEnum(Enum):
     NIX = NixPackageManager()

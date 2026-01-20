@@ -23,11 +23,12 @@ def main_function():
 
     args = parser.parse_args()
     ps_to_install: list[ModuleType] = [app_work, cli_work]
+    set_ordered_managers(allowed_for_each_type)
     
     if args.command == "install":
         runner(allowed_for_each_type, ps_to_install)
     elif args.command == "update":
-        pass
+        update_and_upgrade_all_packages()
     elif args.command == "configure":
         config_all_packages(ps_to_install)
     else:
