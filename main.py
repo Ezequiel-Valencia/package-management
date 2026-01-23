@@ -7,7 +7,8 @@ import argparse
 
 
 
-def main_function(allowed_for_each_type: dict[PackageType, list[PackageManagerEnum]]):
+def main_function(allowed_for_each_type: dict[PackageType, list[PackageManagerEnum]],
+                    ps_to_install: list[ModuleType]):
     parser = argparse.ArgumentParser(description="Personal Package Management")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -16,7 +17,6 @@ def main_function(allowed_for_each_type: dict[PackageType, list[PackageManagerEn
     subparsers.add_parser("configure", help="Configure all packages.")
 
     args = parser.parse_args()
-    ps_to_install: list[ModuleType] = [app_work, cli_work]
     set_ordered_managers(allowed_for_each_type)
     
     if args.command == "install":
@@ -35,5 +35,6 @@ if __name__ == "__main__":
         PackageType.CLI: [PackageManagerEnum.APT, PackageManagerEnum.SNAP, PackageManagerEnum.SNAP_CLASSIC, PackageManagerEnum.BREW],
         PackageType.LIBRARY: [PackageManagerEnum.APT, PackageManagerEnum.BREW]
     }
-    main_function(allowed_for_each_type=allowed_for_each_type)
+    ps_to_install: list[ModuleType] = [app_work, cli_work]
+    main_function(allowed_for_each_type=allowed_for_each_type, ps_to_install=ps_to_install)
 
