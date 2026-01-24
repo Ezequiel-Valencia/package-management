@@ -32,10 +32,10 @@ class NixPackageManager(PackageManager):
         return f"nix-env --query --installed | grep {package_name.split('.')[1]}"  # This is because pacs are formatted nix.{actual name}
 
     def get_update_command(self) -> str:
-        return ""
+        return "echo 'Hello World.'"
 
     def get_upgrade_command(self) -> str:
-        return ""
+        return "echo 'Hello World'"
 
 
 class APTPackageManager(PackageManager):
@@ -48,10 +48,10 @@ class APTPackageManager(PackageManager):
         return f"dpkg -l | grep {package_name}"
 
     def get_update_command(self) -> str:
-        return "apt-get update"
+        return "sudo apt-get update"
 
     def get_upgrade_command(self) -> str:
-        return "apt-get upgrade"
+        return "sudo apt-get upgrade -y"
 
 
 class SnapPackageManager(PackageManager):
@@ -64,10 +64,10 @@ class SnapPackageManager(PackageManager):
         return f"snap list | grep {package_name}"
 
     def get_update_command(self) -> str:
-        return "snap update"
+        return "sudo snap refresh"
 
     def get_upgrade_command(self) -> str:
-        return "snap upgrade"
+        return "sudo snap refresh"
 
 
 class FlatPackageManager(PackageManager):
@@ -80,10 +80,10 @@ class FlatPackageManager(PackageManager):
         return f"flatpak list | grep {package_name}"
 
     def get_update_command(self) -> str:
-        return "flatpak update"
+        return "flatpak update -y"
 
     def get_upgrade_command(self) -> str:
-        return "flatpak upgrade"
+        return "flatpak upgrade -y"
 
 
 class SnapClassicPackageManager(PackageManager):
@@ -96,10 +96,10 @@ class SnapClassicPackageManager(PackageManager):
         return f"snap list | grep {package_name}"
 
     def get_update_command(self) -> str:
-        return "snap update"
+        return "sudo snap refresh"
 
     def get_upgrade_command(self) -> str:
-        return "snap upgrade"
+        return "sudo snap refresh"
 
 
 class BrewPackageManager(PackageManager):

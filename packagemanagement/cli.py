@@ -2,9 +2,9 @@ from packagemanagement.type.packages import PackageType
 from packagemanagement.type.package_managers import PackageManagerEnum
 from types import ModuleType
 from packagemanagement.package_lists import app_work, cli_work
-from packagemanagement.core import runner, config_all_packages
+from packagemanagement.core import runner, config_all_packages, update_and_upgrade_all_packages
 import argparse
-
+from packagemanagement.config.globals import set_ordered_managers
 
 
 def main_function(allowed_for_each_type: dict[PackageType, list[PackageManagerEnum]],

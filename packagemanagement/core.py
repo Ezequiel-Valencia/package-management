@@ -61,9 +61,10 @@ def update_and_upgrade_all_packages() -> None:
     ordered_managers: dict[PackageType, list[PackageManagerEnum]] = (
         get_ordered_managers()
     )
+    password = getpass("Sudo Password: ")
     with open("err.log", "w+") as err_log:
         with open("info.log", "w+") as info_log:
-            kwargs = {"args": "", "check": True, "stderr": err_log, "stdout": info_log}
+            kwargs = {"args": "", "check": True, "stderr": err_log, "stdout": info_log, "input": password}
             already_updated = set()
             for list_of_pack_enums in ordered_managers.values():
                 for pm in list_of_pack_enums:
