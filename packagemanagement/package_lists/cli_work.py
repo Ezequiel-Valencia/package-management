@@ -90,7 +90,18 @@ class OpenCode(CLIPackage):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW  : "opencode"
         }
+        
+class Sops(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW  : "sops"
+        }
 
+class Age(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW  : "age"
+        }
 
 class NeoVim(CLIPackage):
     def __init__(self):
