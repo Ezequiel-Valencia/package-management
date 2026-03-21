@@ -21,6 +21,13 @@ class Gitkraken(GUIPackage):
             PackageManagerEnum.BREW: "gitkraken"
         }
 
+class FreeLens(GUIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.FLATPAK : "app.freelens.Freelens",
+            PackageManagerEnum.BREW: "freelens"
+        }
+
 class IntelliJ(GUIPackage):
 
     def __init__(self):
