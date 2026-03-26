@@ -1,10 +1,32 @@
 from enum import Enum
+from sys import platform
+import pathlib
 
 
 class PackageType(Enum):
     GUI_APP = "gui_app"
     CLI = "cli"
     LIBRARY = "library"
+
+class ShellType(Enum):
+    BASH = "bash"
+    ZSH = "zsh"
+
+    def get_shell_type() -> "ShellType":
+        if 'linux' in platform:
+            return ShellType.BASH
+        elif 'darwin' in platform:
+            return ShellType.ZSH
+        else:
+            raise ValueError(f"Shell type for platform {platform} is not supported")
+
+    def get_shell_hook_path(self) -> str:
+        home = pathlib.Path.home()
+        match self.value:
+            case self.BASH.value:
+                return f'{home}/.bashrc'
+            case self.ZSH.value:
+                return f'{home}/.zshrc'
 
 
 # Package type should have it's own ranking for which manager

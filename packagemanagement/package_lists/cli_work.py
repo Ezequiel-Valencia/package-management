@@ -1,4 +1,4 @@
-from packagemanagement.type.packages import CLIPackage
+from packagemanagement.type.packages import CLIPackage, ShellType
 from packagemanagement.type.package_managers import PackageManagerEnum
 from sys import platform
 import shutil
@@ -130,30 +130,42 @@ class DirEnv(CLIPackage):
         }
     
     def configure(self):
-        hook = ''
-        shell_file = ''
-        home = pathlib.Path.home()
-        if 'linux' in platform:
-            hook = 'eval "$(direnv hook bash)"'
-            shell_file = f'{home}/.bashrc'
-        elif 'darwin' in platform:
-            hook = 'eval "$(direnv hook zsh)"'
-            shell_file = f'{home}/.zshrc'
+        shell_type = ShellType.get_shell_type()
+        if shell_type == ShellType.BASH or shell_type == shell_type.ZSH:
+            hook = f'eval "$(direnv hook {shell_type.value})"'
+            _add_line_to_shell_hook(line_to_add=hook, package_name="DirEnv", shell_type=shell_type)
         else:
-            raise RuntimeError(f"Config not support for os {platform}")
+            raise ValueError("Only supports bash or zsh for now.")
 
-        with open(shell_file, "r") as f:
-            bash_content = f.read()
-        
-        if hook not in bash_content:
-            with open(shell_file, "a+") as f:
-                logger.info(f"Configuring {shell_file} for direnv hook.")
-                shutil.copy(shell_file, f'{shell_file}_{datetime.datetime.now()}')
-                f.write(f'\n{hook}\n')
+
+class Starship(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW  : "starship"
+        }
+    
+    def configure(self):
+        shell_type: ShellType = ShellType.get_shell_type()
+        if shell_type == ShellType.BASH or shell_type == ShellType.ZSH:
+            hook = f'eval "$(starship init {shell_type.value})"'
+            _add_line_to_shell_hook(line_to_add=hook, package_name="starship", shell_type=shell_type)
         else:
-            logger.info(" DirEnv has already been configured. ")
+            raise ValueError("Only supports bash or zsh for now.")
 
 
+
+def _add_line_to_shell_hook(line_to_add: str, package_name: str, shell_type: ShellType):
+    shell_hook_file = shell_type.get_shell_hook_path()
+    with open(shell_hook_file, "r") as f:
+        bash_content = f.read()
+    
+    if line_to_add not in bash_content:
+        with open(shell_hook_file, "a+") as f:
+            logger.info(f"Configuring {shell_hook_file} for {package_name} hook.")
+            shutil.copy(shell_hook_file, f'{shell_hook_file}_{datetime.datetime.now()}')
+            f.write(f'\n{line_to_add}\n')
+    else:
+        logger.info(f" {package_name} has already been configured. ")    
 
 
 # For when I do Tmux: https://youtu.be/jcrE1qrm_e8?si=N85YvBCLy-odLRSY
