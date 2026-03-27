@@ -149,6 +149,10 @@ class Starship(CLIPackage):
         if shell_type == ShellType.BASH or shell_type == ShellType.ZSH:
             hook = f'eval "$(starship init {shell_type.value})"'
             _add_line_to_shell_hook(line_to_add=hook, package_name="starship", shell_type=shell_type)
+            
+            # https://starship.rs/presets/, Available Presets
+            result = subprocess.run(["starship", "preset", "nerd-font-symbols", "-o", f"{pathlib.Path.home()}/.config/starship.toml"], capture_output=True)
+            logger.info(result)
         else:
             raise ValueError("Only supports bash or zsh for now.")
 
