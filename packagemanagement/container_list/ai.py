@@ -10,10 +10,10 @@ from packagemanagement.type.container_manager import DockerStack
 
 logger = getLogger(__name__)
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-_COMPOSE_FILE = _REPO_ROOT / "docker-compose.yml"
-_COMPOSE_GPU_OVERRIDE = _REPO_ROOT / "docker-compose.gpu.yml"
-_COMPOSE_CPU_OVERRIDE = _REPO_ROOT / "docker-compose.cpu.yml"
+_REPO_ROOT = Path(__file__).resolve().parents[0]
+_COMPOSE_FILE = _REPO_ROOT / "ai_compose" / "docker-compose.yml"
+_COMPOSE_GPU_OVERRIDE = _REPO_ROOT / "ai_compose" / "docker-compose.gpu.yml"
+_COMPOSE_CPU_OVERRIDE = _REPO_ROOT / "ai_compose" / "docker-compose.cpu.yml"
 
 
 class AIDockerStack(DockerStack):
