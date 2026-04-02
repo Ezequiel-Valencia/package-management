@@ -27,4 +27,8 @@ class ContainerStack(ABC):
     @abstractmethod
     def status_command(self):
         pass
+    
+    @abstractmethod
+    def configure(self):
+        pass
 

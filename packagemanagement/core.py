@@ -135,4 +135,7 @@ def container_runner(modules_with_container_stacks: list[ModuleType], container_
         logger.info(f"Running {command_to_run}")
         subprocess.run(command_to_run, check=True)
         logger.info(f"Finished running {command_to_run}")
+        if container_state == "start":
+            c_stack.configure()
+            logger.info("Finished configuring container stack.")
      

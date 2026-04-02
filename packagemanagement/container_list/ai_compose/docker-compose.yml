@@ -12,6 +12,7 @@ services:
   # ── Open WebUI (in both profiles; OLLAMA_BASE_URL set by override file) ───
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
     profiles: [gpu, cpu]
     ports:
       - "127.0.0.1:8080:8080"

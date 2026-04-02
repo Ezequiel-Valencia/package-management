@@ -39,3 +39,7 @@ class DockerStack(ContainerStack):
 
     def status_command(self) -> str:
         return f"{self._base_cmd()} ps"
+    
+    def configure(self):
+        pass
+    
