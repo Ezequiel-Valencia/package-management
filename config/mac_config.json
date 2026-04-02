@@ -1,5 +1,8 @@
 {
-    "GUI_APP": ["BREW"],
-    "CLI": ["BREW"],
-    "LIBRARY": ["BREW"]
+    "package_managers": {
+        "GUI_APP": ["BREW"],
+        "CLI": ["BREW"],
+        "LIBRARY": ["BREW"]
+    },
+    "modules": ["packagemanagement.package_lists.app_work", "packagemanagement.package_lists.cli_work"]
 }
