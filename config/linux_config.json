@@ -1,0 +1,8 @@
+{
+    "package_managers": {
+        "GUI_APP": ["FLATPAK","SNAP_CLASSIC","SNAP", "APT", "NIX"],
+        "CLI": ["APT", "SNAP", "BREW"],
+        "LIBRARY": ["APT", "BREW"]
+    },
+    "modules": ["packagemanagement.package_lists.app_work", "packagemanagement.package_lists.cli_work"]
+}
