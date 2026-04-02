@@ -4,5 +4,5 @@
         "CLI": ["APT", "SNAP", "BREW"],
         "LIBRARY": ["APT", "BREW"]
     },
-    "modules": ["packagemanagement.package_lists.app_work", "packagemanagement.package_lists.cli_work"]
+    "modules": ["packagemanagement.package_lists.app_work", "packagemanagement.package_lists.cli_work", "packagemanagement.package_lists.ai"]
 }
