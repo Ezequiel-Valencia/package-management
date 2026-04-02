@@ -1,0 +1,5 @@
+{
+    "GUI_APP": ["BREW"],
+    "CLI": ["BREW"],
+    "LIBRARY": ["BREW"]
+}
