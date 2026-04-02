@@ -1,21 +1,28 @@
-services:
-  tabby:
-    image: registry.tabbyml.com/tabbyml/tabby
-    command: >
-      serve --model StarCoder-1B --device cuda --chat-model Qwen2-1.5B-Instruct
-    ports:
-      - "127.0.0.1:9080:8080"
-    volumes:
-      - tabby:/data
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+name: local-ai
+networks:
+  ai-net:
+    driver: bridge
 
 volumes:
   tabby:
+  ollama:
+  open-webui:
 
-  
+services:
+  # ── Open WebUI (in both profiles; OLLAMA_BASE_URL set by override file) ───
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    profiles: [gpu, cpu]
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    networks:
+      - ai-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 45s

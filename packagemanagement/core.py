@@ -6,6 +6,8 @@ from typing import IO
 from types import ModuleType
 from packagemanagement.type.packages import Package, PackageType
 from packagemanagement.type.package_managers import PackageManagerEnum, PackageManager
+from packagemanagement.type.containers import ContainerStack
+from packagemanagement.container_list import ai
 from getpass import getpass
 from logging import getLogger
 
@@ -49,6 +51,19 @@ def install_packages(
             package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
 
+def setup_container_stack(
+    c_stack: ContainerStack, er_log: IO, inf_log: IO
+):
+    start_commands = c_stack.start_command().split(" ")
+    logger.info(f"Running {start_commands}")
+    kwargs = {
+        "args": start_commands,
+        "check": True,
+        "stderr": er_log,
+        "stdout": inf_log
+    }
+    subprocess.run(**kwargs)
+    logger.info(f"Finished running {start_commands}")
 
 def config_all_packages(modules_with_packages: list[Package]) -> None:
     for m in modules_with_packages:
@@ -91,6 +106,14 @@ def list_packages_to_install(mod: ModuleType) -> list[Package]:
     return ps
 
 
+def get_container_stack(mod: ModuleType) -> ContainerStack:
+    for name, obj in inspect.getmembers(mod, inspect.isclass):
+        if obj.__module__ == mod.__name__:
+            if issubclass(obj, ContainerStack) and obj is not Package:
+                return obj()
+    raise RuntimeError(f"Expected a class which inherited 'ContainerStack' from: {mod}")
+
+
 def runner(
     allowed_managers_for_each_type: dict[PackageType, list[PackageManagerEnum]],
     modules_with_packages: list[ModuleType],
@@ -110,3 +133,7 @@ def runner(
                         passwd=password,
                         change_log=change_log,
                     )
+                
+                containers_to_setup = get_container_stack(ai)
+                setup_container_stack(containers_to_setup, err_log, info_log)
+                
