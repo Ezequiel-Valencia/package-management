@@ -121,26 +121,18 @@ def runner(
                 
 
 def container_runner(modules_with_container_stacks: list[ModuleType], container_state: str):
-    with open("err.log", "w+") as err_log:
-        with open("info.log", "w+") as info_log:
-            for stack in modules_with_container_stacks:
-                c_stack = get_container_stack(stack)
-                command_to_run = ""
-                if (container_state == "start"):
-                    command_to_run = c_stack.start_command().split(" ")
-                elif (container_state == "stop"):
-                    command_to_run = c_stack.stop_command().split(" ")
-                elif (container_state == "status"):
-                    command_to_run = c_stack.status_command().split(" ")
-                else:
-                    raise ValueError(f"Expected command of either start, stop, or status. Instead got {container_state}")
-                logger.info(f"Running {command_to_run}")
-                kwargs = {
-                    "args": command_to_run,
-                    "check": True,
-                    "stderr": err_log,
-                    "stdout": info_log
-                }
-                subprocess.run(**kwargs)
-                logger.info(f"Finished running {command_to_run}")
+    for stack in modules_with_container_stacks:
+        c_stack = get_container_stack(stack)
+        match container_state:
+            case "start":
+                command_to_run = c_stack.start_command().split(" ")
+            case "stop":
+                command_to_run = c_stack.stop_command().split(" ")
+            case "status":
+                command_to_run = c_stack.status_command().split(" ")
+            case _:
+                raise ValueError(f"Expected command of either start, stop, or status. Instead got {container_state}")
+        logger.info(f"Running {command_to_run}")
+        subprocess.run(command_to_run, check=True)
+        logger.info(f"Finished running {command_to_run}")
      
