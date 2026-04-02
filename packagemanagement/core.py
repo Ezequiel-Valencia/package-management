@@ -7,7 +7,6 @@ from types import ModuleType
 from packagemanagement.type.packages import Package, PackageType
 from packagemanagement.type.package_managers import PackageManagerEnum, PackageManager
 from packagemanagement.type.containers import ContainerStack
-from packagemanagement.container_list import ai
 from getpass import getpass
 from logging import getLogger
 
@@ -50,20 +49,6 @@ def install_packages(
             logger.info(subprocess.run(**kwargs, shell=True, text=True))
             package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
-
-def setup_container_stack(
-    c_stack: ContainerStack, er_log: IO, inf_log: IO
-):
-    start_commands = c_stack.start_command().split(" ")
-    logger.info(f"Running {start_commands}")
-    kwargs = {
-        "args": start_commands,
-        "check": True,
-        "stderr": er_log,
-        "stdout": inf_log
-    }
-    subprocess.run(**kwargs)
-    logger.info(f"Finished running {start_commands}")
 
 def config_all_packages(modules_with_packages: list[Package]) -> None:
     for m in modules_with_packages:
@@ -134,6 +119,28 @@ def runner(
                         change_log=change_log,
                     )
                 
-                containers_to_setup = get_container_stack(ai)
-                setup_container_stack(containers_to_setup, err_log, info_log)
-                
+
+def container_runner(modules_with_container_stacks: list[ModuleType], container_state: str):
+    with open("err.log", "w+") as err_log:
+        with open("info.log", "w+") as info_log:
+            for stack in modules_with_container_stacks:
+                c_stack = get_container_stack(stack)
+                command_to_run = ""
+                if (container_state == "start"):
+                    command_to_run = c_stack.start_command().split(" ")
+                elif (container_state == "stop"):
+                    command_to_run = c_stack.stop_command().split(" ")
+                elif (container_state == "status"):
+                    command_to_run = c_stack.status_command().split(" ")
+                else:
+                    raise ValueError(f"Expected command of either start, stop, or status. Instead got {container_state}")
+                logger.info(f"Running {command_to_run}")
+                kwargs = {
+                    "args": command_to_run,
+                    "check": True,
+                    "stderr": err_log,
+                    "stdout": info_log
+                }
+                subprocess.run(**kwargs)
+                logger.info(f"Finished running {command_to_run}")
+     

@@ -13,6 +13,21 @@ configure: ##
 	@echo "🚀 Configuring apps."
 	@python3 main.py configure
 
+.PHONY: container_stack
+container_stack: ##
+	@echo "🚀 Configuring apps."
+	@python3 main.py container_stack start
+
+.PHONY: stop_container_stack
+stop_container_stack: ##
+	@echo "🚀 Configuring apps."
+	@python3 main.py container_stack stop
+
+.PHONY: status_container_stack
+status_container_stack: ##
+	@echo "🚀 Configuring apps."
+	@python3 main.py container_stack stop
+
 .PHONY: publish
 publish: ##
 	@echo "🚀 Publishing Package."
