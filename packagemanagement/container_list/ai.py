@@ -16,12 +16,26 @@ _COMPOSE_GPU_OVERRIDE = _REPO_ROOT / "ai_compose" / "docker-compose.gpu.yml"
 _COMPOSE_CPU_OVERRIDE = _REPO_ROOT / "ai_compose" / "docker-compose.cpu.yml"
 
 
+def _has_nvidia_gpu() -> bool:
+    try:
+        subprocess.run(
+            ["nvidia-smi"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=True,
+        )
+        return True
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return False
+
+
 class AIDockerStack(DockerStack):
     """
     Orchestrates the local AI Docker Compose stack (Tabby, Ollama, Open WebUI).
     """
 
-    def __init__(self, use_gpu: bool = False):
+    def __init__(self):
+        use_gpu = _has_nvidia_gpu()
         profile = HardwareResources.GPU if use_gpu else HardwareResources.CPU
         override = _COMPOSE_GPU_OVERRIDE if use_gpu else _COMPOSE_CPU_OVERRIDE
         super().__init__(
