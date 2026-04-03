@@ -1,0 +1,58 @@
+services:
+  open-webui:
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+
+  # ── Ollama: GPU variant ───────────────────────────────────────────────────
+  ollama-gpu:
+    image: ollama/ollama:latest
+    pull_policy: always
+    container_name: ollama
+    profiles: [gpu]
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - ai-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  
+    # ── Tabby: GPU variant ────────────────────────────────────────────────────
+  # tabby-gpu:
+  #   image: registry.tabbyml.com/tabbyml/tabby
+  #   profiles: [gpu]
+  #   command: >
+  #     serve --model StarCoder-1B --device cuda --chat-model Qwen2-1.5B-Instruct
+  #   ports:
+  #     - "127.0.0.1:9080:8080"
+  #   volumes:
+  #     - tabby:/data
+  #   networks:
+  #     - ai-net
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8080/v1/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 60s
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]

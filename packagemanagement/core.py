@@ -6,6 +6,7 @@ from typing import IO
 from types import ModuleType
 from packagemanagement.type.packages import Package, PackageType
 from packagemanagement.type.package_managers import PackageManagerEnum, PackageManager
+from packagemanagement.type.containers import ContainerStack
 from getpass import getpass
 from logging import getLogger
 
@@ -49,7 +50,6 @@ def install_packages(
             package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
 
-
 def config_all_packages(modules_with_packages: list[Package]) -> None:
     for m in modules_with_packages:
         packs = list_packages_to_install(m)
@@ -91,6 +91,14 @@ def list_packages_to_install(mod: ModuleType) -> list[Package]:
     return ps
 
 
+def get_container_stack(mod: ModuleType) -> ContainerStack:
+    for name, obj in inspect.getmembers(mod, inspect.isclass):
+        if obj.__module__ == mod.__name__:
+            if issubclass(obj, ContainerStack) and obj is not Package:
+                return obj()
+    raise RuntimeError(f"Expected a class which inherited 'ContainerStack' from: {mod}")
+
+
 def runner(
     allowed_managers_for_each_type: dict[PackageType, list[PackageManagerEnum]],
     modules_with_packages: list[ModuleType],
@@ -110,3 +118,24 @@ def runner(
                         passwd=password,
                         change_log=change_log,
                     )
+                
+
+def container_runner(modules_with_container_stacks: list[ModuleType], container_state: str):
+    for stack in modules_with_container_stacks:
+        c_stack = get_container_stack(stack)
+        match container_state:
+            case "start":
+                command_to_run = c_stack.start_command().split(" ")
+            case "stop":
+                command_to_run = c_stack.stop_command().split(" ")
+            case "status":
+                command_to_run = c_stack.status_command().split(" ")
+            case _:
+                raise ValueError(f"Expected command of either start, stop, or status. Instead got {container_state}")
+        logger.info(f"Running {command_to_run}")
+        subprocess.run(command_to_run, check=True)
+        logger.info(f"Finished running {command_to_run}")
+        if container_state == "start":
+            c_stack.configure()
+            logger.info("Finished configuring container stack.")
+     

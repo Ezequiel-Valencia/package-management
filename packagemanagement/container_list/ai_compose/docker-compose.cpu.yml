@@ -1,0 +1,43 @@
+services:
+  open-webui:
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+  
+  # ── Ollama: CPU fallback ──────────────────────────────────────────────────
+  ollama-cpu:
+    image: ollama/ollama:latest
+    container_name: ollama
+    profiles: [cpu]
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - ai-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+  
+  # ── Tabby: CPU fallback ───────────────────────────────────────────────────
+  # tabby-cpu:
+  #   image: registry.tabbyml.com/tabbyml/tabby
+  #   profiles: [cpu]
+  #   command: >
+  #     serve --model StarCoder-1B --device cpu --chat-model Qwen2-1.5B-Instruct
+  #   ports:
+  #     - "127.0.0.1:9080:8080"
+  #   volumes:
+  #     - tabby:/data
+  #   networks:
+  #     - ai-net
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8080/v1/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 120s

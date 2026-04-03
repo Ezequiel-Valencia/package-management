@@ -83,13 +83,6 @@ class Yq(CLIPackage):
             PackageManagerEnum.SNAP : "yq",
             PackageManagerEnum.BREW: "yq"
         }
-
-# https://github.com/sst/opencode, CLI based code editor that is open source
-class OpenCode(CLIPackage):
-    def __init__(self):
-        self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW  : "opencode"
-        }
         
 class Sops(CLIPackage):
     def __init__(self):
@@ -120,6 +113,12 @@ class NeoVim(CLIPackage):
         subprocess.run(
             ['git', 'clone', config_to_clone, neo_vim_config_dir]
         )
+
+class NerdFont(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW: "font-jetbrains-mono-nerd-font"
+        }
 
 
 class DirEnv(CLIPackage):
