@@ -6,6 +6,7 @@ services:
   # ── Ollama: GPU variant ───────────────────────────────────────────────────
   ollama-gpu:
     image: ollama/ollama:latest
+    pull_policy: always
     container_name: ollama
     profiles: [gpu]
     ports:

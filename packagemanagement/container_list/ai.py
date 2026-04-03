@@ -43,11 +43,12 @@ class AIDockerStack(DockerStack):
             profile=profile,
             override_files=[override]
         )
-    
     def configure(self):
-        pull_code_model_command = ["docker", "exec", f"ollama", "ollama", "pull", "qwen2.5-coder:7b"]
-        subprocess.run(
-            pull_code_model_command,
-            check=True
-        )
+        partial_command = ["docker", "exec", f"ollama", "ollama", "pull"]
+        models = ["mistral-small3.2"]
+        for model in models:
+            subprocess.run(
+                partial_command + [model],
+                check=True
+            )
         
