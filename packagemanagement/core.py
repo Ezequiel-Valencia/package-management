@@ -43,10 +43,10 @@ def install_packages(
 
             sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP}
             if package.allow_sudo() and pref in sudo_required_pm:
-                kwargs["args"] = "sudo -S " + command
-                kwargs["input"] = passwd
+                kwargs["args"] = ["sudo", "-S"] + command.split()
+                kwargs["input"] = passwd + "\n"
 
-            logger.info(subprocess.run(**kwargs, shell=True, text=True))
+            logger.info(subprocess.run(**kwargs, shell=False, text=True))
             package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
 

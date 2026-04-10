@@ -53,7 +53,6 @@ class Syft(CLIPackage):
 class Gitleaks(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "gitleaks",
             PackageManagerEnum.BREW: "gitleaks",
         }
 
