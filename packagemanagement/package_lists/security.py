@@ -13,7 +13,6 @@ from packagemanagement.type.package_managers import PackageManagerEnum
 class Nmap(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "nmap",
             PackageManagerEnum.BREW: "nmap",
         }
 
@@ -22,16 +21,7 @@ class Nmap(CLIPackage):
 class Nikto(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "nikto",
             PackageManagerEnum.BREW: "nikto",
-        }
-
-
-# SSL/TLS configuration tester, https://github.com/drwetter/testssl.sh
-class Testssl(CLIPackage):
-    def __init__(self):
-        self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "testssl",
         }
 
 
@@ -39,8 +29,7 @@ class Testssl(CLIPackage):
 class Dnsrecon(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "dnsrecon",
-            PackageManagerEnum.BREW: "dnsrecon",
+            PackageManagerEnum.PIPX: "dnsrecon",
         }
 
 
@@ -77,22 +66,6 @@ class Trufflehog(CLIPackage):
         }
 
 
-# Static analysis security testing for many languages (SAST), https://semgrep.dev/
-class Semgrep(CLIPackage):
-    def __init__(self):
-        self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "semgrep",
-        }
-
-
-# Dependency vulnerability audit for Python projects, https://pypi.org/project/pip-audit/
-class PipAudit(CLIPackage):
-    def __init__(self):
-        self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "pip-audit",
-        }
-
-
 # OSV-based dependency vulnerability scanner (multi-ecosystem), https://github.com/google/osv-scanner
 class OsvScanner(CLIPackage):
     def __init__(self):
@@ -105,32 +78,14 @@ class OsvScanner(CLIPackage):
 class Trivy(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "trivy",
             PackageManagerEnum.BREW: "trivy",
         }
 
 
-# IaC security scanner (Terraform, CloudFormation, K8s, …), https://github.com/aquasecurity/tfsec
-class Tfsec(CLIPackage):
-    def __init__(self):
-        self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "tfsec",
-        }
-
-
-# Lightweight host-based intrusion detection / file integrity monitoring, https://github.com/Tripwire/tripwire-open-source
-class Tripwire(CLIPackage):
-    def __init__(self):
-        self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "tripwire",
-        }
-
-
 # Network traffic analysis & packet capture, https://www.wireshark.org/ (CLI component)
-class Tshark(CLIPackage):
+class WireShark(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.APT : "tshark",
             PackageManagerEnum.BREW: "wireshark",
         }
 
