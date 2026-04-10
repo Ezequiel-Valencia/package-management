@@ -120,6 +120,21 @@ class BrewPackageManager(PackageManager):
     def get_upgrade_command(self) -> str:
         return "brew upgrade"
 
+class PipxPackageManager(PackageManager):
+    def get_install_command(self, package: "Package") -> str:
+        package_name = package.get_package_name(PackageManagerEnum.PIPX)
+        return f"pipx install {package_name}"
+
+    def get_check_command(self, package: "Package") -> str:
+        package_name = package.get_package_name(PackageManagerEnum.PIPX)
+        return f"pipx list | grep {package_name}"
+
+    def get_update_command(self) -> str:
+        return "echo 'Hello.'"
+
+    def get_upgrade_command(self) -> str:
+        return "pipx upgrade-all"
+
 
 class PackageManagerEnum(Enum):
     NIX = NixPackageManager()
@@ -128,6 +143,7 @@ class PackageManagerEnum(Enum):
     FLATPAK = FlatPackageManager()
     SNAP_CLASSIC = SnapClassicPackageManager()
     BREW = BrewPackageManager()
+    PIPX = PipxPackageManager()
 
 
 class RankedManager:
