@@ -88,6 +88,12 @@ class WireShark(CLIPackage):
             PackageManagerEnum.BREW: "wireshark",
         }
 
+class Lynis(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW: "lynis"
+        }
+
 
 #!----- Interesting / future additions ---------!#
 # OpenVAS / Greenbone — full-stack vulnerability management, https://www.greenbone.net/
