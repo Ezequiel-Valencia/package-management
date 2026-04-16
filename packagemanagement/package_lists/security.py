@@ -88,16 +88,37 @@ class WireShark(CLIPackage):
             PackageManagerEnum.BREW: "wireshark",
         }
 
+# Lynis — security auditing for Unix/Linux systems,
 class Lynis(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "lynis"
         }
 
+# Nuclei — fast, template-based vulnerability scanner, https://github.com/projectdiscovery/nuclei    
+class Nuclei(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW: "nuclei"
+        }
+
+# Figure out what kind of firewall a website might have
+class WafWoof(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.PIPX: "wafw00f"
+        }
+
+# Word Press Scanner
+# class WPScan(CLIPackage):
+#     def __init__(self):
+#         self.package_dict: dict[PackageManagerEnum, str] = {
+#             PackageManagerEnum.BREW: "wpscanteam/tap/wpscan"
+#         }
 
 #!----- Interesting / future additions ---------!#
 # OpenVAS / Greenbone — full-stack vulnerability management, https://www.greenbone.net/
-# Lynis — security auditing for Unix/Linux systems, https://cisofy.com/lynis/
-# Nuclei — fast, template-based vulnerability scanner, https://github.com/projectdiscovery/nuclei
 # Checkov — IaC static analysis (Python-based), https://www.checkov.io/
 # Dependency-check (OWASP) — Java/Node/Python SCA, https://owasp.org/www-project-dependency-check/
+# Nikto - Web server scanner, https://github.com/sullo/nikto
+# What web - Web server scanner, https://github.com/urbanadventurer/WhatWeb
