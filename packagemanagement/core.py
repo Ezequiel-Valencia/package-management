@@ -35,7 +35,7 @@ def install_packages(
         else:
             command = pref.value.get_install_command(package)
             kwargs = {
-                "args": command,
+                "args": command.split(),
                 "check": True,
                 "stderr": er_log,
                 "stdout": inf_log,
