@@ -21,6 +21,10 @@ class PackageManager(ABC):
     def get_upgrade_command(self) -> str:
         pass
 
+    @abstractmethod
+    def uninstall(self, package_name: str) -> str:
+        pass 
+
 
 class NixPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
@@ -36,6 +40,9 @@ class NixPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "echo 'Hello World'"
+    
+    def uninstall(self, package_name: str) -> str:
+        return "echo 'Need to implement'" 
 
 
 class APTPackageManager(PackageManager):
@@ -52,6 +59,9 @@ class APTPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "sudo apt-get upgrade -y"
+    
+    def uninstall(self, package_name: str) -> str:
+        return f"sudo apt-get uninstall {package_name}" 
 
 
 class SnapPackageManager(PackageManager):
@@ -68,6 +78,10 @@ class SnapPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "sudo snap refresh"
+    
+    def uninstall(self, package_name: str) -> str:
+        return f"sudo snap uninstall {package_name}" 
+
 
 
 class FlatPackageManager(PackageManager):
@@ -85,6 +99,9 @@ class FlatPackageManager(PackageManager):
     def get_upgrade_command(self) -> str:
         return "flatpak upgrade -y"
 
+    def uninstall(self, package_name: str) -> str:
+        return f"flatpak uninstall {package_name}" 
+
 
 class SnapClassicPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
@@ -100,6 +117,9 @@ class SnapClassicPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "sudo snap refresh"
+
+    def uninstall(self, package_name: str) -> str:
+        return f"sudo snap uninstall {package_name}" 
 
 
 class BrewPackageManager(PackageManager):
@@ -119,6 +139,10 @@ class BrewPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "brew upgrade"
+    
+    def uninstall(self, package_name: str) -> str:
+        return f"brew uninstall {package_name}" 
+
 
 class PipxPackageManager(PackageManager):
     def get_install_command(self, package: "Package") -> str:
@@ -134,6 +158,9 @@ class PipxPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "pipx upgrade-all"
+
+    def uninstall(self, package_name: str) -> str:
+        return f"pipx uninstall {package_name}" 
 
 
 class PackageManagerEnum(Enum):
