@@ -61,7 +61,7 @@ class APTPackageManager(PackageManager):
         return "sudo apt-get upgrade -y"
     
     def uninstall(self, package_name: str) -> str:
-        return f"sudo apt-get uninstall {package_name}" 
+        return f"apt-get remove -y {package_name}"
 
 
 class SnapPackageManager(PackageManager):
@@ -78,9 +78,9 @@ class SnapPackageManager(PackageManager):
 
     def get_upgrade_command(self) -> str:
         return "sudo snap refresh"
-    
+
     def uninstall(self, package_name: str) -> str:
-        return f"sudo snap uninstall {package_name}" 
+        return f"snap remove {package_name}"
 
 
 
@@ -119,7 +119,7 @@ class SnapClassicPackageManager(PackageManager):
         return "sudo snap refresh"
 
     def uninstall(self, package_name: str) -> str:
-        return f"sudo snap uninstall {package_name}" 
+        return f"snap remove {package_name}"
 
 
 class BrewPackageManager(PackageManager):
