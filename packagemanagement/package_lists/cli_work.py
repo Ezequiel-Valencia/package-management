@@ -120,6 +120,18 @@ class NerdFont(CLIPackage):
             PackageManagerEnum.BREW: "font-jetbrains-mono-nerd-font"
         }
 
+class KubeSeal(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW: "kubeseal"
+        }
+
+class Kubectl(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW: "kubernetes-cli"
+        }
+
 
 class DirEnv(CLIPackage):
     def __init__(self):
