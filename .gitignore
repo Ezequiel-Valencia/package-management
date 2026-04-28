@@ -1,6 +1,9 @@
 .idea
 .vscode
 
+# Local package state (machine-specific, not tracked in git)
+installed_state.json
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

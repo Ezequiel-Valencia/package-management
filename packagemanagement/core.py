@@ -2,6 +2,7 @@ import subprocess
 import inspect
 
 from packagemanagement.config.globals import set_ordered_managers, get_ordered_managers
+from packagemanagement.config.state import load_state, record_installed, remove_from_state
 from typing import IO
 from types import ModuleType
 from packagemanagement.type.packages import Package, PackageType
@@ -24,10 +25,12 @@ def install_packages(
         check_command = pref.value.get_check_command(package)
         result = subprocess.run(check_command, shell=True, capture_output=True)
         package_name = package.get_package_name(pref)
+        class_name = type(package).__name__
         if result.stdout != b"":
             logger.info(
                 f"==== {package_name} seems to already be installed with manager {pref}. ==="
             )
+            record_installed(class_name, pref.name, package_name)
         elif result.stderr != b"":
             raise RuntimeError(
                 f"Error checking package {package_name} when using manager {pref}: {result.stderr}"
@@ -47,6 +50,7 @@ def install_packages(
                 kwargs["input"] = passwd + "\n"
 
             logger.info(subprocess.run(**kwargs, shell=False, text=True))
+            record_installed(class_name, pref.name, package_name)
             package.configure()
             change_log.write(f"{package_name} was installed using {pref}")
 
@@ -99,6 +103,36 @@ def get_container_stack(mod: ModuleType) -> ContainerStack:
     raise RuntimeError(f"Expected a class which inherited 'ContainerStack' from: {mod}")
 
 
+def _uninstall_removed_packages(
+    to_uninstall: dict[str, dict], passwd: str, err_log: IO, inf_log: IO
+) -> None:
+    print("\nThe following packages are tracked in state but no longer in the repository:")
+    for name, info in to_uninstall.items():
+        print(f"  - {name}  (manager: {info['manager']}, package: {info['package_name']})")
+    confirm = input("\nUninstall these packages? [y/N]: ").strip().lower()
+    if confirm != "y":
+        logger.info("Skipping uninstall of removed packages.")
+        return
+
+    sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP, PackageManagerEnum.SNAP_CLASSIC}
+    for name, info in to_uninstall.items():
+        pm_enum = PackageManagerEnum[info["manager"]]
+        package_name = info["package_name"]
+        command = pm_enum.value.uninstall(package_name)
+        kwargs: dict = {
+            "args": command.split(),
+            "check": True,
+            "stderr": err_log,
+            "stdout": inf_log,
+        }
+        if pm_enum in sudo_required_pm:
+            kwargs["args"] = ["sudo", "-S"] + command.split()
+            kwargs["input"] = passwd + "\n"
+        logger.info(subprocess.run(**kwargs, shell=False, text=True))
+        remove_from_state(name)
+        logger.info(f"Uninstalled {name} ({package_name}) via {pm_enum.name}.")
+
+
 def runner(
     allowed_managers_for_each_type: dict[PackageType, list[PackageManagerEnum]],
     modules_with_packages: list[ModuleType],
@@ -106,9 +140,21 @@ def runner(
     set_ordered_managers(ordered_managers=allowed_managers_for_each_type)
     password = getpass("Sudo Password: ")
 
+    # Determine which packages are currently defined in the repo
+    current_packages: set[str] = set()
+    for m in modules_with_packages:
+        for p in list_packages_to_install(m):
+            current_packages.add(type(p).__name__)
+
+    # Find any state entries for packages no longer in the repo
+    state = load_state()
+    to_uninstall = {name: info for name, info in state.items() if name not in current_packages}
+
     with open("err.log", "w+") as err_log:
         with open("info.log", "w+") as info_log:
             with open("change.log", "w+") as change_log:
+                if to_uninstall:
+                    _uninstall_removed_packages(to_uninstall, password, err_log, info_log)
                 for m in modules_with_packages:
                     packs = list_packages_to_install(m)
                     install_packages(
