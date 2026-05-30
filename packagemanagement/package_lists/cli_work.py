@@ -168,6 +168,12 @@ class Starship(CLIPackage):
             raise ValueError("Only supports bash or zsh for now.")
 
 
+class GolangLinter(CLIPackage):
+    def __init__(self):
+        self.package_dict: dict[PackageManagerEnum, str] = {
+            PackageManagerEnum.BREW: "golangci-lint"
+        }
+
 
 def _add_line_to_shell_hook(line_to_add: str, package_name: str, shell_type: ShellType):
     shell_hook_file = shell_type.get_shell_hook_path()
