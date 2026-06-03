@@ -5,16 +5,22 @@ import importlib
 from packagemanagement.core import runner, config_all_packages, update_and_upgrade_all_packages
 import json
 import sys
+import platform
 from packagemanagement.cli import main_function
 from packagemanagement.config.globals import set_ordered_managers
 
 _CONFIG_FILES = {
     "darwin": "config/mac_config.json",
     "linux":  "config/linux_config.json",
+    "wsl": "config/wsl.json",
 }
 
 def _load_config() -> dict:
-    _config_file = _CONFIG_FILES.get(sys.platform)
+    system = sys.platform
+    _config_file = _CONFIG_FILES[system]
+    uname = platform.uname().release.lower()
+    if system == 'linux' and 'microsoft' in uname and 'wsl' in uname:
+        _config_file = _CONFIG_FILES['wsl']
     if _config_file is None:
         raise RuntimeError(f"Unsupported platform: {sys.platform}. Expected one of: {list(_CONFIG_FILES.keys())}")
     with open(_config_file) as f:
