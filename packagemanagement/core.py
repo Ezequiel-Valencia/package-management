@@ -44,7 +44,7 @@ def install_packages(
                 "stdout": inf_log,
             }
 
-            sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP}
+            sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP, PackageManagerEnum.PACMAN}
             if package.allow_sudo() and pref in sudo_required_pm:
                 kwargs["args"] = ["sudo", "-S"] + command.split()
                 kwargs["input"] = passwd + "\n"
@@ -114,7 +114,7 @@ def _uninstall_removed_packages(
         logger.info("Skipping uninstall of removed packages.")
         return
 
-    sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP, PackageManagerEnum.SNAP_CLASSIC}
+    sudo_required_pm = {PackageManagerEnum.APT, PackageManagerEnum.SNAP, PackageManagerEnum.SNAP_CLASSIC, PackageManagerEnum.PACMAN}
     for name, info in to_uninstall.items():
         pm_enum = PackageManagerEnum[info["manager"]]
         package_name = info["package_name"]

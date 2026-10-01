@@ -12,7 +12,8 @@ logger = getLogger(__name__)
 class OpenCode(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW  : "opencode"
+            PackageManagerEnum.BREW  : "opencode",
+            PackageManagerEnum.PACMAN: "opencode-bin",
         }
 
     def configure(self):
@@ -56,6 +57,7 @@ class OpenCode(CLIPackage):
 class ClaudCode(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW  : "claude-code"
+            PackageManagerEnum.BREW  : "claude-code",
+            PackageManagerEnum.PACMAN: "claude-code",
         }
         

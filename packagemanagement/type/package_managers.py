@@ -160,7 +160,26 @@ class PipxPackageManager(PackageManager):
         return "pipx upgrade-all"
 
     def uninstall(self, package_name: str) -> str:
-        return f"pipx uninstall {package_name}" 
+        return f"pipx uninstall {package_name}"
+
+
+class PacmanPackageManager(PackageManager):
+    def get_install_command(self, package: "Package") -> str:
+        package_name = package.get_package_name(PackageManagerEnum.PACMAN)
+        return f"pacman -S --noconfirm {package_name}"
+
+    def get_check_command(self, package: "Package") -> str:
+        package_name = package.get_package_name(PackageManagerEnum.PACMAN)
+        return f"pacman -Q {package_name}"
+
+    def get_update_command(self) -> str:
+        return "pacman -Sy"
+
+    def get_upgrade_command(self) -> str:
+        return "pacman -Su --noconfirm"
+
+    def uninstall(self, package_name: str) -> str:
+        return f"pacman -R --noconfirm {package_name}"
 
 
 class PackageManagerEnum(Enum):
@@ -171,6 +190,7 @@ class PackageManagerEnum(Enum):
     SNAP_CLASSIC = SnapClassicPackageManager()
     BREW = BrewPackageManager()
     PIPX = PipxPackageManager()
+    PACMAN = PacmanPackageManager()
 
 
 class RankedManager:

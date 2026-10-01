@@ -6,7 +6,8 @@ class VSCodium(GUIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.NIX : "nixpkgs.vscodium",
-            PackageManagerEnum.BREW: "vscodium"
+            PackageManagerEnum.BREW: "vscodium",
+            PackageManagerEnum.PACMAN: "vscodium",
         }
 
 # class Lens(Package):
@@ -18,14 +19,16 @@ class Gitkraken(GUIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.FLATPAK : "com.axosoft.GitKraken",
-            PackageManagerEnum.BREW: "gitkraken"
+            PackageManagerEnum.BREW: "gitkraken",
+            PackageManagerEnum.PACMAN: "gitkraken",
         }
 
 class FreeLens(GUIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.FLATPAK : "app.freelens.Freelens",
-            PackageManagerEnum.BREW: "freelens"
+            PackageManagerEnum.BREW: "freelens",
+            PackageManagerEnum.PACMAN: "freelens-bin",
         }
 
 class IntelliJ(GUIPackage):
@@ -33,7 +36,8 @@ class IntelliJ(GUIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.FLATPAK : "com.jetbrains.IntelliJ-IDEA-Community",
-            PackageManagerEnum.BREW: "intellij-idea"
+            PackageManagerEnum.BREW: "intellij-idea",
+            PackageManagerEnum.PACMAN: "intellij-idea-community-edition",
         }
 
 
@@ -42,7 +46,8 @@ class Ghostty(GUIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.SNAP_CLASSIC : "ghostty",
-            PackageManagerEnum.BREW: "ghostty"
+            PackageManagerEnum.BREW: "ghostty",
+            PackageManagerEnum.PACMAN: "ghostty",
         }
 
     def configure(self):

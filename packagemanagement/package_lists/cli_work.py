@@ -15,14 +15,16 @@ class Htop(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.APT : "htop",
-            PackageManagerEnum.BREW: "htop"
+            PackageManagerEnum.BREW: "htop",
+            PackageManagerEnum.PACMAN: "htop",
         }
 
 class Bat(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.APT : "bat",
-            PackageManagerEnum.BREW: "bat"
+            PackageManagerEnum.BREW: "bat",
+            PackageManagerEnum.PACMAN: "bat",
         }
 
 # Fuzzy find in terminal, https://github.com/junegunn/fzf
@@ -30,21 +32,24 @@ class Fzf(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.APT : "fzf",
-            PackageManagerEnum.BREW: "fzf"
+            PackageManagerEnum.BREW: "fzf",
+            PackageManagerEnum.PACMAN: "fzf",
         }
 
 # Better ls, https://github.com/eza-community/eza
 class Eza(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW : "eza"
+            PackageManagerEnum.BREW : "eza",
+            PackageManagerEnum.PACMAN: "eza",
         }
 
 # Better du, https://github.com/bootandy/dust
 class DuDust(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW : "dust"
+            PackageManagerEnum.BREW : "dust",
+            PackageManagerEnum.PACMAN: "dust",
         }
 
 # Better df, https://github.com/muesli/duf
@@ -52,7 +57,8 @@ class Duf(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.APT : "duf",
-            PackageManagerEnum.BREW: "duf"
+            PackageManagerEnum.BREW: "duf",
+            PackageManagerEnum.PACMAN: "duf",
         }
 
 # Better find, https://github.com/sharkdp/fd
@@ -60,46 +66,53 @@ class FdFind(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.APT : "fd-find",
-            PackageManagerEnum.BREW: "fd"
+            PackageManagerEnum.BREW: "fd",
+            PackageManagerEnum.PACMAN: "fd",
         }
 
 # Better grep, https://github.com/BurntSushi/ripgrep
 class Ripgrep(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW : "ripgrep"
+            PackageManagerEnum.BREW : "ripgrep",
+            PackageManagerEnum.PACMAN: "ripgrep",
         }
 
 # Better man pages, https://github.com/tldr-pages/tldr
 class Tldr(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW : "tlrc"
+            PackageManagerEnum.BREW : "tlrc",
+            PackageManagerEnum.PACMAN: "tlrc",
         }
 
 class Yq(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.SNAP : "yq",
-            PackageManagerEnum.BREW: "yq"
+            PackageManagerEnum.BREW: "yq",
+            PackageManagerEnum.PACMAN: "go-yq",
         }
         
 class Sops(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW  : "sops"
+            PackageManagerEnum.BREW  : "sops",
+            PackageManagerEnum.PACMAN: "sops",
         }
 
 class Age(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW  : "age"
+            PackageManagerEnum.BREW  : "age",
+            PackageManagerEnum.PACMAN: "age",
         }
 
 class NeoVim(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW : "neovim"
+            PackageManagerEnum.BREW : "neovim",
+            PackageManagerEnum.PACMAN: "neovim",
         }
 
     def configure(self):
@@ -117,19 +130,22 @@ class NeoVim(CLIPackage):
 class NerdFont(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "font-jetbrains-mono-nerd-font"
+            PackageManagerEnum.BREW: "font-jetbrains-mono-nerd-font",
+            PackageManagerEnum.PACMAN: "ttf-jetbrains-mono-nerd",
         }
 
 class KubeSeal(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "kubeseal"
+            PackageManagerEnum.BREW: "kubeseal",
+            PackageManagerEnum.PACMAN: "kubeseal",
         }
 
 class Kubectl(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "kubernetes-cli"
+            PackageManagerEnum.BREW: "kubernetes-cli",
+            PackageManagerEnum.PACMAN: "kubectl",
         }
 
 
@@ -137,7 +153,8 @@ class DirEnv(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW  : "direnv",
-            PackageManagerEnum.APT: "direnv"
+            PackageManagerEnum.APT: "direnv",
+            PackageManagerEnum.PACMAN: "direnv",
         }
     
     def configure(self):
@@ -152,7 +169,8 @@ class DirEnv(CLIPackage):
 class Starship(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW  : "starship"
+            PackageManagerEnum.BREW  : "starship",
+            PackageManagerEnum.PACMAN: "starship",
         }
     
     def configure(self):
@@ -171,7 +189,8 @@ class Starship(CLIPackage):
 class GolangLinter(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "golangci-lint"
+            PackageManagerEnum.BREW: "golangci-lint",
+            PackageManagerEnum.PACMAN: "golangci-lint",
         }
 
 

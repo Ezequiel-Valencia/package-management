@@ -14,6 +14,7 @@ class Nmap(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "nmap",
+            PackageManagerEnum.PACMAN: "nmap",
         }
 
 
@@ -22,6 +23,7 @@ class Nikto(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "nikto",
+            PackageManagerEnum.PACMAN: "nikto",
         }
 
 
@@ -30,6 +32,7 @@ class Dnsrecon(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.PIPX: "dnsrecon",
+            PackageManagerEnum.PACMAN: "dnsrecon",
         }
 
 
@@ -38,6 +41,7 @@ class Grype(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "grype",
+            PackageManagerEnum.PACMAN: "grype",
         }
 
 
@@ -46,6 +50,7 @@ class Syft(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "syft",
+            PackageManagerEnum.PACMAN: "syft",
         }
 
 
@@ -54,6 +59,7 @@ class Gitleaks(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "gitleaks",
+            PackageManagerEnum.PACMAN: "gitleaks",
         }
 
 
@@ -62,6 +68,7 @@ class Trufflehog(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "trufflehog",
+            PackageManagerEnum.PACMAN: "trufflehog",
         }
 
 
@@ -70,6 +77,7 @@ class OsvScanner(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "osv-scanner",
+            PackageManagerEnum.PACMAN: "osv-scanner",
         }
 
 
@@ -78,6 +86,7 @@ class Trivy(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "trivy",
+            PackageManagerEnum.PACMAN: "trivy",
         }
 
 
@@ -86,27 +95,31 @@ class WireShark(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
             PackageManagerEnum.BREW: "wireshark",
+            PackageManagerEnum.PACMAN: "wireshark-qt",
         }
 
 # Lynis — security auditing for Unix/Linux systems,
 class Lynis(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "lynis"
+            PackageManagerEnum.BREW: "lynis",
+            PackageManagerEnum.PACMAN: "lynis",
         }
 
 # Nuclei — fast, template-based vulnerability scanner, https://github.com/projectdiscovery/nuclei    
 class Nuclei(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.BREW: "nuclei"
+            PackageManagerEnum.BREW: "nuclei",
+            PackageManagerEnum.PACMAN: "nuclei",
         }
 
 # Figure out what kind of firewall a website might have
 class WafWoof(CLIPackage):
     def __init__(self):
         self.package_dict: dict[PackageManagerEnum, str] = {
-            PackageManagerEnum.PIPX: "wafw00f"
+            PackageManagerEnum.PIPX: "wafw00f",
+            PackageManagerEnum.PACMAN: "wafw00f",
         }
 
 # Word Press Scanner
