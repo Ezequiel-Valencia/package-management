@@ -1,5 +1,6 @@
 .idea
 .vscode
+*.secret
 
 # Local package state (machine-specific, not tracked in git)
 installed_state.json
