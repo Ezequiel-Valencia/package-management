@@ -1,0 +1,13 @@
+---
+packages_shell: fish
+# packages_shell_rc: "{{ ansible_facts.user_dir }}/.{{ packages_shell }}rc"
+
+
+# Package managers to try for each package type, in order of preference.
+package_managers:
+  GUI_APP: [FLATPAK, PACMAN]
+  CLI: [PACMAN]
+  LIBRARY: [PACMAN]
+
+# Package lists (group_vars/all/package_list_<name>.yml) this host installs.
+package_lists: [app_work, cli_work]

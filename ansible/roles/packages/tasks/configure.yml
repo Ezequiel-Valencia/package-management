@@ -1,0 +1,10 @@
+---
+- name: Load host package settings
+  ansible.builtin.include_tasks: load_host.yml
+
+- name: Configure packages
+  ansible.builtin.include_tasks: "configure/{{ packages_pkg.configure }}.yml"
+  loop: "{{ packages_packages | selectattr('configure', 'defined') | list }}"
+  loop_control:
+    loop_var: packages_pkg
+    label: "{{ packages_pkg.name }}"

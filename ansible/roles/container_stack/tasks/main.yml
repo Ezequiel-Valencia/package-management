@@ -1,0 +1,64 @@
+---
+# Local AI Docker Compose stack (Ollama, Open WebUI).
+- name: Validate container action
+  ansible.builtin.assert:
+    that: container_stack_container_action in ['start', 'stop', 'status']
+    fail_msg: "container_action must be start, stop or status (got '{{ container_stack_container_action }}')."
+    quiet: true
+
+- name: Copy compose files
+  ansible.builtin.copy:
+    src: ai_compose/
+    dest: "{{ container_stack_compose_dir }}/"
+    mode: "0644"
+
+- name: Check for an NVIDIA GPU
+  ansible.builtin.command: nvidia-smi
+  register: container_stack_nvidia
+  changed_when: false
+  failed_when: false
+
+- name: Build docker compose command
+  ansible.builtin.set_fact:
+    container_stack_compose: >-
+      {{ ['docker', 'compose',
+          '-f', container_stack_compose_dir ~ '/docker-compose.yml',
+          '-f', container_stack_compose_dir ~ '/docker-compose.' ~ _profile ~ '.yml',
+          '--profile', _profile] }}
+  vars:
+    _profile: "{{ 'gpu' if container_stack_nvidia.rc | default(1) == 0 else 'cpu' }}"
+
+- name: Start container stack
+  ansible.builtin.command:
+    argv: "{{ container_stack_compose + ['up', '-d'] }}"
+  when: container_stack_container_action == 'start'
+  changed_when: true
+
+- name: Pull ollama models
+  ansible.builtin.command:
+    argv: [docker, exec, ollama, ollama, pull, "{{ item }}"]
+  loop: "{{ container_stack_ollama_models }}"
+  register: container_stack_pull
+  until: container_stack_pull.rc == 0
+  retries: 5
+  delay: 5
+  changed_when: true
+  when: container_stack_container_action == 'start'
+
+- name: Stop container stack
+  ansible.builtin.command:
+    argv: "{{ container_stack_compose + ['down'] }}"
+  when: container_stack_container_action == 'stop'
+  changed_when: true
+
+- name: Get container stack status
+  ansible.builtin.command:
+    argv: "{{ container_stack_compose + ['ps'] }}"
+  register: container_stack_status
+  changed_when: false
+  when: container_stack_container_action == 'status'
+
+- name: Show container stack status
+  ansible.builtin.debug:
+    var: container_stack_status.stdout_lines
+  when: container_stack_container_action == 'status'

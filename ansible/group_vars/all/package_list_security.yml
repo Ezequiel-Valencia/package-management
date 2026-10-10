@@ -1,0 +1,111 @@
+---
+# -----------------------------------------------------------------------
+# Defensive / vulnerability-discovery security tools
+# -----------------------------------------------------------------------
+# All packages here are focused on *finding* vulnerabilities so they can
+# be fixed — not exploitation.  Think: scanners, auditors, analyzers.
+# -----------------------------------------------------------------------
+package_list_security:
+  # Network discovery & port scanning, https://nmap.org/
+  - name: Nmap
+    type: CLI
+    managers:
+      BREW: nmap
+      PACMAN: nmap
+
+  # Web application vulnerability scanner, https://github.com/sullo/nikto
+  - name: Nikto
+    type: CLI
+    managers:
+      BREW: nikto
+      PACMAN: nikto
+
+  # DNS enumeration & subdomain discovery, https://github.com/darkoperator/dnsrecon
+  - name: Dnsrecon
+    type: CLI
+    managers:
+      PIPX: dnsrecon
+      PACMAN: dnsrecon
+
+  # Open-source vulnerability scanner for containers & filesystems, https://github.com/anchore/grype
+  - name: Grype
+    type: CLI
+    managers:
+      BREW: grype
+      PACMAN: grype
+
+  # SBOM (Software Bill of Materials) generator — pairs with Grype, https://github.com/anchore/syft
+  - name: Syft
+    type: CLI
+    managers:
+      BREW: syft
+      PACMAN: syft
+
+  # Static secret / credential scanner for repos, https://github.com/gitleaks/gitleaks
+  - name: Gitleaks
+    type: CLI
+    managers:
+      BREW: gitleaks
+      PACMAN: gitleaks
+
+  # Detect hardcoded secrets in source code, https://github.com/trufflesecurity/trufflehog
+  - name: Trufflehog
+    type: CLI
+    managers:
+      BREW: trufflehog
+      PACMAN: trufflehog
+
+  # OSV-based dependency vulnerability scanner (multi-ecosystem), https://github.com/google/osv-scanner
+  - name: OsvScanner
+    type: CLI
+    managers:
+      BREW: osv-scanner
+      PACMAN: osv-scanner
+
+  # CIS-benchmark / misconfiguration scanner for containers & IaC, https://github.com/aquasecurity/trivy
+  - name: Trivy
+    type: CLI
+    managers:
+      BREW: trivy
+      PACMAN: trivy
+
+  # Network traffic analysis & packet capture, https://www.wireshark.org/ (CLI component)
+  - name: WireShark
+    type: CLI
+    managers:
+      BREW: wireshark
+      PACMAN: wireshark-qt
+
+  # Lynis — security auditing for Unix/Linux systems,
+  - name: Lynis
+    type: CLI
+    managers:
+      BREW: lynis
+      PACMAN: lynis
+
+  # Nuclei — fast, template-based vulnerability scanner, https://github.com/projectdiscovery/nuclei
+  - name: Nuclei
+    type: CLI
+    managers:
+      BREW: nuclei
+      PACMAN: nuclei
+
+  # Figure out what kind of firewall a website might have
+  - name: WafWoof
+    type: CLI
+    managers:
+      PIPX: wafw00f
+      PACMAN: wafw00f
+
+  # Word Press Scanner
+  # - name: WPScan
+  #   type: CLI
+  #   managers:
+  #     BREW: wpscanteam/tap/wpscan
+
+# ------ Interesting / future additions ---------
+# OpenVAS / Greenbone — full-stack vulnerability management, https://www.greenbone.net/
+# Checkov — IaC static analysis (Python-based), https://www.checkov.io/
+# Dependency-check (OWASP) — Java/Node/Python SCA, https://owasp.org/www-project-dependency-check/
+# Nikto - Web server scanner, https://github.com/sullo/nikto
+# What web - Web server scanner, https://github.com/urbanadventurer/WhatWeb

@@ -1,0 +1,77 @@
+---
+- name: Resolve packages for this host
+  ansible.builtin.include_tasks: resolve.yml
+
+- name: Uninstall packages in the uninstall list
+  ansible.builtin.include_tasks: uninstall.yml
+
+# Each manager's task keeps going past a failed package; failures are listed at the end.
+- name: Install with pacman
+  community.general.pacman:
+    name: "{{ item.package_name }}"
+    state: present
+  become: true
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'PACMAN') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Install with apt
+  ansible.builtin.apt:
+    name: "{{ item.package_name }}"
+    state: present
+  become: true
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'APT') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Install with snap
+  community.general.snap:
+    name: "{{ item.package_name }}"
+    classic: "{{ item.manager == 'SNAP_CLASSIC' }}"
+    state: present
+  become: true
+  loop: "{{ packages_install | selectattr('manager', 'in', ['SNAP', 'SNAP_CLASSIC']) | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Install with flatpak
+  community.general.flatpak:
+    name: "{{ item.package_name }}"
+    remote: flathub
+    method: system
+    state: present
+  become: true
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'FLATPAK') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Install brew formulae
+  community.general.homebrew:
+    name: "{{ item.package_name }}"
+    state: present
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'BREW') | rejectattr('brew_cask') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Install brew casks
+  community.general.homebrew_cask:
+    name: "{{ item.package_name }}"
+    state: present
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'BREW') | selectattr('brew_cask') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Install with pipx
+  community.general.pipx:
+    name: "{{ item.package_name }}"
+    state: present
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'PIPX') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Configure newly installed packages
+  ansible.builtin.include_tasks: "configure/{{ packages_pkg.configure }}.yml"
+  loop: "{{ packages_install | selectattr('configure', 'defined') | list }}"
+  loop_control:
+    loop_var: packages_pkg
+    label: "{{ packages_pkg.name }}"

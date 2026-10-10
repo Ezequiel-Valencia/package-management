@@ -1,0 +1,7 @@
+---
+package_managers:
+  GUI_APP: []
+  CLI: [APT, BREW]
+  LIBRARY: [APT, BREW]
+
+package_lists: [cli_work]

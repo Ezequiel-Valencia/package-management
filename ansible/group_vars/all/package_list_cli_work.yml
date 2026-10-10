@@ -1,0 +1,138 @@
+---
+package_list_cli_work:
+  - name: Htop
+    type: CLI
+    managers:
+      APT: htop
+      BREW: htop
+      PACMAN: htop
+
+  - name: Bat
+    type: CLI
+    managers:
+      APT: bat
+      BREW: bat
+      PACMAN: bat
+
+  # Fuzzy find in terminal, https://github.com/junegunn/fzf
+  - name: Fzf
+    type: CLI
+    managers:
+      APT: fzf
+      BREW: fzf
+      PACMAN: fzf
+
+  # Better ls, https://github.com/eza-community/eza
+  - name: Eza
+    type: CLI
+    managers:
+      BREW: eza
+      PACMAN: eza
+
+  # Better du, https://github.com/bootandy/dust
+  - name: DuDust
+    type: CLI
+    managers:
+      BREW: dust
+      PACMAN: dust
+
+  # Better df, https://github.com/muesli/duf
+  - name: Duf
+    type: CLI
+    managers:
+      APT: duf
+      BREW: duf
+      PACMAN: duf
+
+  # Better find, https://github.com/sharkdp/fd
+  - name: FdFind
+    type: CLI
+    managers:
+      APT: fd-find
+      BREW: fd
+      PACMAN: fd
+
+  # Better grep, https://github.com/BurntSushi/ripgrep
+  - name: Ripgrep
+    type: CLI
+    managers:
+      BREW: ripgrep
+      PACMAN: ripgrep
+
+  # Better man pages, https://github.com/tldr-pages/tldr
+  - name: Tldr
+    type: CLI
+    managers:
+      BREW: tlrc
+      PACMAN: tealdeer
+
+  - name: Yq
+    type: CLI
+    managers:
+      SNAP: yq
+      BREW: yq
+      PACMAN: go-yq
+
+  - name: Sops
+    type: CLI
+    managers:
+      BREW: sops
+      PACMAN: sops
+
+  - name: Age
+    type: CLI
+    managers:
+      BREW: age
+      PACMAN: age
+
+  - name: NerdFont
+    type: CLI
+    managers:
+      BREW: font-jetbrains-mono-nerd-font
+      PACMAN: ttf-jetbrains-mono-nerd
+    brew_cask: true
+
+  - name: KubeSeal
+    type: CLI
+    managers:
+      BREW: kubeseal
+      PACMAN: kubeseal
+
+  - name: Kubectl
+    type: CLI
+    managers:
+      BREW: kubernetes-cli
+      PACMAN: kubectl
+
+  - name: DirEnv
+    type: CLI
+    managers:
+      BREW: direnv
+      APT: direnv
+      PACMAN: direnv
+    configure: direnv
+
+  - name: Starship
+    type: CLI
+    managers:
+      BREW: starship
+      PACMAN: starship
+    configure: starship
+
+  - name: GolangLinter
+    type: CLI
+    managers:
+      BREW: golangci-lint
+      PACMAN: golangci-lint
+
+# For when I do Tmux: https://youtu.be/jcrE1qrm_e8?si=N85YvBCLy-odLRSY
+
+# ------ Interesting ---------
+# Easier curl for APIs, # https://github.com/httpie/cli
+# https://github.com/Aider-AI/aider
+# AWS Stack Mock locally https://github.com/localstack/localstack
+# Docker container for any distro, https://github.com/89luca89/distrobox
+# Ubuntu VM easy, https://github.com/canonical/multipass
+# AI auto tab assistant, https://github.com/TabbyML/tabby
+# Create CLI's, https://github.com/spf13/cobra
+# Better git diff, https://github.com/dandavison/delta

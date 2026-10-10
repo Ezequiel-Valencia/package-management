@@ -1,0 +1,17 @@
+---
+- name: Ensure opencode config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_facts.user_dir }}/.config/opencode"
+    state: directory
+    mode: "0755"
+
+- name: Check for existing opencode config
+  ansible.builtin.stat:
+    path: "{{ ansible_facts.user_dir }}/.config/opencode/opencode.json"
+  register: packages_opencode_stat
+
+- name: Read existing opencode config
+  ansible.builtin.slurp:
+    src: "{{ ansible_facts.user_dir }}/.config/opencode/opencode.json"
+  register: packages_opencode_raw
+  when: packages_opencode_stat.stat.exists

@@ -1,0 +1,28 @@
+---
+- block: 
+    - name: Add starship init to {{ packages_shell_rc }}
+      ansible.builtin.lineinfile:
+        path: "{{ packages_shell_rc }}"
+        line: 'eval "$(starship init {{ packages_shell }})"'
+        create: true
+        backup: true
+        mode: "0644"
+
+    - name: Render starship preset
+      ansible.builtin.command:
+        argv: [starship, preset, "{{ packages_starship_preset }}"]
+      register: packages_starship_rendered
+      changed_when: false
+
+    - name: Ensure ~/.config exists
+      ansible.builtin.file:
+        path: "{{ ansible_facts.user_dir }}/.config"
+        state: directory
+        mode: "0755"
+
+    - name: Write starship.toml
+      ansible.builtin.copy:
+        dest: "{{ ansible_facts.user_dir }}/.config/starship.toml"
+        content: "{{ packages_starship_rendered.stdout }}\n"
+        mode: "0644"
+  when: inventory_hostname != "personal-cachy"

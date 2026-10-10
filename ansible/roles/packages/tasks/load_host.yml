@@ -1,0 +1,19 @@
+---
+- name: Ensure package_managers has an entry for every package type
+  ansible.builtin.assert:
+    that:
+      - package_managers is defined
+      - package_lists is defined
+      - "'GUI_APP' in package_managers"
+      - "'CLI' in package_managers"
+      - "'LIBRARY' in package_managers"
+    fail_msg: "{{ inventory_hostname }} needs package_managers (GUI_APP, CLI, LIBRARY) and package_lists in host_vars."
+    quiet: true
+
+- name: Collect this host's packages
+  ansible.builtin.set_fact:
+    packages_packages: "{{ query('vars', *(package_lists | map('regex_replace', '^', 'package_list_'))) | flatten }}"
+
+- name: Collect packages to uninstall
+  ansible.builtin.set_fact:
+    packages_uninstall: "{{ package_list_uninstall | default([]) | map('combine', {'uninstall': true}) | list }}"

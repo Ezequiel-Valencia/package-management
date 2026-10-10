@@ -1,0 +1,19 @@
+---
+# Packages to remove from every selected host. To retire a package, move its entry
+# here from its package list unchanged. It's removed with the manager the host would
+# have installed it with. Packages that aren't installed are skipped.
+#
+# package_list_uninstall:
+#   - name: Htop
+#     type: CLI
+#     managers:
+#       APT: htop
+#       BREW: htop
+#       PACMAN: htop
+package_list_uninstall:
+  - name: NeoVim
+    type: CLI
+    managers:
+      BREW: neovim
+      PACMAN: neovim
+    configure: neovim

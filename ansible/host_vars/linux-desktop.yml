@@ -1,0 +1,9 @@
+---
+# Package managers to try for each package type, in order of preference.
+package_managers:
+  GUI_APP: [FLATPAK,SNAP_CLASSIC,SNAP, APT, NIX],
+  CLI: [APT, SNAP, BREW]
+  LIBRARY: [APT, BREW]
+
+# Package lists (group_vars/all/package_list_<name>.yml) this host installs.
+package_lists: [app_work, cli_work, ai, security]

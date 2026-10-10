@@ -1,0 +1,9 @@
+---
+# start | stop | status
+container_stack_container_action: start
+
+container_stack_compose_dir: "{{ ansible_facts.user_dir }}/.local/share/package-management/ai_compose"
+
+# Pulled into the ollama container after the stack starts.
+container_stack_ollama_models:
+  - mistral-small3.2

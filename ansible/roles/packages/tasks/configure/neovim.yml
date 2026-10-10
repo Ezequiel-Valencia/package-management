@@ -1,0 +1,11 @@
+---
+# Clean slate every time, following git instead.
+- name: Remove existing Neovim config
+  ansible.builtin.file:
+    path: "{{ ansible_facts.user_dir }}/.config/nvim"
+    state: absent
+
+- name: Clone Neovim config  # noqa: latest[git] tracks the config repo's default branch on purpose
+  ansible.builtin.git:
+    repo: "{{ packages_neovim_config_repo }}"
+    dest: "{{ ansible_facts.user_dir }}/.config/nvim"

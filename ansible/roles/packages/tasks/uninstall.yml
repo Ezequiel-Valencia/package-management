@@ -1,0 +1,72 @@
+---
+# Removes everything in package_list_uninstall. Packages that aren't installed are left alone.
+- name: Uninstall with pacman
+  community.general.pacman:
+    name: "{{ item.package_name }}"
+    state: absent
+  become: true
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'PACMAN') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall with apt
+  ansible.builtin.apt:
+    name: "{{ item.package_name }}"
+    state: absent
+  become: true
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'APT') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall with snap
+  community.general.snap:
+    name: "{{ item.package_name }}"
+    state: absent
+  become: true
+  loop: "{{ packages_remove | selectattr('manager', 'in', ['SNAP', 'SNAP_CLASSIC']) | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall with flatpak
+  community.general.flatpak:
+    name: "{{ item.package_name }}"
+    method: system
+    state: absent
+  become: true
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'FLATPAK') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall brew formulae
+  community.general.homebrew:
+    name: "{{ item.package_name }}"
+    state: absent
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'BREW') | rejectattr('brew_cask') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall brew casks
+  community.general.homebrew_cask:
+    name: "{{ item.package_name }}"
+    state: absent
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'BREW') | selectattr('brew_cask') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall with pipx
+  community.general.pipx:
+    name: "{{ item.package_name }}"
+    state: absent
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'PIPX') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+
+- name: Uninstall with nix
+  ansible.builtin.shell: >-
+    nix-env -q {{ item.package_name.split('.')[-1] | quote }} >/dev/null 2>&1 || exit 0;
+    nix-env -e {{ item.package_name.split('.')[-1] | quote }} && echo PM_REMOVED
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'NIX') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+  register: packages_r_nix_remove
+  changed_when: "'PM_REMOVED' in packages_r_nix_remove.stdout"

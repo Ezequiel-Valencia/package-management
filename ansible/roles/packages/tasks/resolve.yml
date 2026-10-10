@@ -1,0 +1,47 @@
+---
+- name: Load host package settings
+  ansible.builtin.include_tasks: load_host.yml
+
+- name: Reset resolved packages
+  ansible.builtin.set_fact:
+    packages_resolved: []
+
+# A package with a single manager always uses it; otherwise the first manager in
+# package_managers[type] that the package supports wins.
+- name: Choose a package manager for each package
+  ansible.builtin.set_fact:
+    packages_resolved: "{{ packages_resolved + [item | combine(_resolved)] }}"
+  loop: "{{ packages_packages + packages_uninstall }}"
+  loop_control:
+    label: "{{ item.name }}"
+  vars:
+    _keys: "{{ item.managers | list }}"
+    _candidates: "{{ package_managers[item.type] | select('in', _keys) | list }}"
+    _manager: "{{ _keys[0] if _keys | length == 1 else (_candidates | first | default('')) }}"
+    _resolved:
+      manager: "{{ _manager }}"
+      package_name: "{{ item.managers[_manager] | default('') }}"
+      brew_cask: "{{ item.brew_cask | default(item.type == 'GUI_APP') }}"
+
+- name: Fail on packages with no usable manager
+  ansible.builtin.fail:
+    msg: >-
+      No allowed manager could be found for:
+      {{ _unresolved | map(attribute='name') | join(', ') }}
+  when: _unresolved | length > 0
+  vars:
+    _unresolved: "{{ packages_resolved | rejectattr('uninstall', 'defined') | selectattr('manager', 'equalto', '') | list }}"
+
+- name: Split packages to install and uninstall
+  ansible.builtin.set_fact:
+    packages_install: "{{ packages_resolved | rejectattr('uninstall', 'defined') | list }}"
+    # Uninstall entries with no manager for this host couldn't have been installed here, so skip them.
+    packages_remove: "{{ packages_resolved | selectattr('uninstall', 'defined') | rejectattr('manager', 'equalto', '') | list }}"
+
+- name: Ensure no package is both installed and uninstalled
+  ansible.builtin.assert:
+    that: _overlap | length == 0
+    fail_msg: "In both a package list and package_list_uninstall: {{ _overlap | join(', ') }}"
+    quiet: true
+  vars:
+    _overlap: "{{ packages_install | map(attribute='name') | intersect(packages_remove | map(attribute='name')) }}"

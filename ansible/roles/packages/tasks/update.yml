@@ -1,0 +1,47 @@
+---
+- name: Load host package settings
+  ansible.builtin.include_tasks: load_host.yml
+
+- name: Collect managers used by this host
+  ansible.builtin.set_fact:
+    packages_managers: "{{ package_managers.values() | flatten | unique }}"
+
+- name: Update and upgrade pacman packages
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+  become: true
+  when: "'PACMAN' in packages_managers"
+
+- name: Update and upgrade apt packages
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: "yes"
+  become: true
+  when: "'APT' in packages_managers"
+
+- name: Refresh snaps
+  ansible.builtin.command: snap refresh
+  become: true
+  register: packages_snap_refresh
+  changed_when: "'All snaps up to date' not in (packages_snap_refresh.stdout + packages_snap_refresh.stderr)"
+  when: "'SNAP' in packages_managers or 'SNAP_CLASSIC' in packages_managers"
+
+- name: Update flatpaks
+  ansible.builtin.command: flatpak update -y --noninteractive
+  become: true
+  register: packages_flatpak_update
+  changed_when: "'Nothing to do' not in packages_flatpak_update.stdout"
+  when: "'FLATPAK' in packages_managers"
+
+- name: Update and upgrade brew packages
+  community.general.homebrew:
+    update_homebrew: true
+    upgrade_all: true
+  when: "'BREW' in packages_managers"
+
+- name: Upgrade pipx packages
+  community.general.pipx:
+    state: upgrade_all
+  when: "'PIPX' in packages_managers"
+

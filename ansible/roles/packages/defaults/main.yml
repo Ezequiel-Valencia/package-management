@@ -1,0 +1,19 @@
+---
+packages_shell: "{{ 'zsh' if ansible_facts.system == 'Darwin' else 'bash' }}"
+packages_shell_rc: "{{ ansible_facts.user_dir }}/.{{ packages_shell }}rc"
+
+packages_neovim_config_repo: https://github.com/Ezequiel-Valencia/LazyVimStarter.git
+
+# https://starship.rs/presets/, Available Presets
+packages_starship_preset: nerd-font-symbols
+
+packages_opencode_ollama_provider:
+  npm: "@ai-sdk/openai-compatible"
+  name: Ollama (Local)
+  options:
+    baseURL: http://localhost:11434/v1
+  models:
+    mistral-small3.2:
+      name: Local Mistral-Small 3.2
+      reasoning: false
+      tools: true

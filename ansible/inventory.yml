@@ -1,0 +1,30 @@
+---
+# Each host gets its own package managers and package lists in host_vars/<host>.yml.
+# Groups are for picking hosts (see `target_hosts` in site.yml). They don't hold package settings.
+all:
+  children:
+    linux:
+      hosts:
+        linux-desktop:
+          ansible_host: localhost
+          ansible_connection: local
+          ansible_python_interpreter: "{{ ansible_playbook_python }}"
+    mac:
+      hosts:
+        macbook:
+          ansible_host: localhost
+          ansible_connection: local
+          ansible_python_interpreter: "{{ ansible_playbook_python }}"
+    wsl:
+      hosts:
+        wsl-host:
+          ansible_host: localhost
+          ansible_connection: local
+          ansible_python_interpreter: "{{ ansible_playbook_python }}"
+    cachy:
+      hosts:
+        personal-cachy:
+          ansible_host: localhost
+          ansible_connection: local
+          inventory_hostname: personal-cachy
+          ansible_python_interpreter: "{{ ansible_playbook_python }}"

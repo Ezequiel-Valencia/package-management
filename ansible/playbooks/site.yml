@@ -1,0 +1,55 @@
+---
+# Usage:
+#   ansible-playbook site.yml                                   # install (default)
+#   ansible-playbook site.yml -e pm_command=update
+#   ansible-playbook site.yml -e pm_command=configure
+#   ansible-playbook site.yml -e pm_command=container_stack -e container_action=start|stop|status
+
+- name: Select target hosts
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    # ---- Set this by hand. Any inventory host, group, or pattern, e.g. linux | mac | wsl | linux-desktop ----
+    target_hosts: cachy
+  tasks:
+    - name: Resolve the selected hosts
+      ansible.builtin.set_fact:
+        _selected: "{{ query('inventory_hostnames', target_hosts) }}"
+
+    - name: Ensure the selection matches at least one host
+      ansible.builtin.assert:
+        that: _selected | length > 0
+        fail_msg: "target_hosts '{{ target_hosts }}' matched no hosts in the inventory."
+
+    - name: Add selected hosts to the run group
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        groups: pm_selected
+      loop: "{{ _selected }}"
+      changed_when: false
+
+- name: Package management
+  hosts: pm_selected
+  gather_facts: true
+  vars:
+    pm_command: install
+    container_action: start
+  tasks:
+    - name: Validate command
+      ansible.builtin.assert:
+        that: pm_command in ['install', 'update', 'configure', 'container_stack']
+        fail_msg: "pm_command must be one of install, update, configure, container_stack (got '{{ pm_command }}')."
+
+    - name: Run package command
+      ansible.builtin.include_role:
+        name: packages
+        tasks_from: "{{ pm_command }}.yml"
+      when: pm_command in ['install', 'update', 'configure']
+
+    - name: Run container stack command
+      ansible.builtin.include_role:
+        name: container_stack
+      vars:
+        container_stack_action: "{{ container_action }}"
+      when: pm_command == 'container_stack'

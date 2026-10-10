@@ -1,0 +1,55 @@
+---
+# Each package:
+#   name:       unique id, also the key in the installed-state file
+#   type:       GUI_APP | CLI | LIBRARY
+#   managers:   manager -> package name for that manager
+#   configure:  (optional) roles/packages/tasks/configure/<configure>.yml runs after install
+#   brew_cask:  (optional) install with `brew install --cask`, default is true for GUI_APP
+package_list_app_work:
+  - name: VSCodium
+    type: GUI_APP
+    managers:
+      NIX: nixpkgs.vscodium
+      BREW: vscodium
+      PACMAN: vscodium
+
+  # - name: Lens
+  #   type: GUI_APP
+  #   managers:
+  #     NIX: nixpkgs.lens
+
+  - name: Gitkraken
+    type: GUI_APP
+    managers:
+      FLATPAK: com.axosoft.GitKraken
+      BREW: gitkraken
+      PACMAN: gitkraken
+
+  - name: FreeLens
+    type: GUI_APP
+    managers:
+      FLATPAK: app.freelens.Freelens
+      BREW: freelens
+      PACMAN: freelens-bin
+
+  - name: IntelliJ
+    type: GUI_APP
+    managers:
+      FLATPAK: com.jetbrains.IntelliJ-IDEA-Community
+      BREW: intellij-idea
+      PACMAN: intellij-idea-community-edition
+
+  # - name: Ghostty
+  #   type: GUI_APP
+  #   managers:
+  #     SNAP_CLASSIC: ghostty
+  #     BREW: ghostty
+  #     PACMAN: ghostty
+  #   # So that when ssh into various nodes, the XTerm is known:
+  #   #   if [[ "$TERM_PROGRAM" == "ghostty" ]]; then export TERM=xterm-256color; fi
+
+# ------ Interesting ---------
+# Remote IDE tool, https://github.com/loft-sh/devpod
+# Wordpress for backend admin panels, https://github.com/appsmithorg/appsmith?tab=readme-ov-file
+# React framework close to no-code, https://github.com/refinedev/refine
+# API Interactive GUI, https://github.com/hoppscotch/hoppscotch

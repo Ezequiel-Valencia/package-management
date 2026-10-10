@@ -1,0 +1,15 @@
+---
+package_list_ai:
+  # https://github.com/sst/opencode, CLI based code editor that is open source
+  - name: OpenCode
+    type: CLI
+    managers:
+      BREW: opencode
+      PACMAN: opencode
+    configure: opencode
+
+  - name: ClaudCode
+    type: CLI
+    managers:
+      BREW: claude-code
+      PACMAN: claude-code
