@@ -6,4 +6,13 @@
     create: true
     backup: true
     mode: "0644"
-  when: inventory_hostname != inventory_hostname
+  when: packages_shell != 'fish'
+
+- name: Add direnv hook to {{ packages_shell_rc }}
+  ansible.builtin.lineinfile:
+    path: "{{ packages_shell_rc }}"
+    line: direnv hook fish | source
+    create: true
+    backup: true
+    mode: "0644"
+  when: packages_shell == 'fish'

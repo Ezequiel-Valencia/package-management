@@ -47,6 +47,11 @@
         tasks_from: "{{ pm_command }}.yml"
       when: pm_command in ['install', 'update', 'configure']
 
+    - name: Run package command
+      ansible.builtin.include_role:
+        name: cachy_setup
+      when: pm_command == 'configure' and inventory_hostname == 'personal-cachy'
+
     - name: Run container stack command
       ansible.builtin.include_role:
         name: container_stack

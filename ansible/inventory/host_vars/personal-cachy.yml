@@ -1,6 +1,6 @@
 ---
 packages_shell: fish
-# packages_shell_rc: "{{ ansible_facts.user_dir }}/.{{ packages_shell }}rc"
+packages_shell_rc: "{{ ansible_facts.user_dir }}/.config/fish/config.fish"
 
 
 # Package managers to try for each package type, in order of preference.

@@ -1,0 +1,21 @@
+---
+- name: Setup Wifi
+  community.general.nmcli:
+    state: present
+    type: wifi
+    conn_name: riley347-hl
+    ssid: riley347-hl
+    ifname: wlan0
+    wifi:
+        hidden: true
+        mode: infrastructure
+    wifi_sec:
+        proto:
+            - rsn
+        key-mgmt: wpa-psk
+        psk: "{{ riley347_hl_pw }}"
+
+- name: Bring Up Wifi
+  community.general.nmcli:
+    state: up
+    conn_name: riley347-hl
