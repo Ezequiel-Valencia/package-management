@@ -11,3 +11,5 @@ package_managers:
 
 # Package lists (group_vars/all/package_list_<name>.yml) this host installs.
 package_lists: [app_work, cli_work]
+
+main_monitor: eDP-1
