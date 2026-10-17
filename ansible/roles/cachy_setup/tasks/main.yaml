@@ -2,6 +2,5 @@
 - name: Network
   ansible.builtin.import_tasks: network.yaml
 
-- name: Setup Wallpaper
-  ansible.builtin.import_tasks: wallpaper.yaml
-  
+- name: Setup Desktop
+  ansible.builtin.import_tasks: desktop.yaml

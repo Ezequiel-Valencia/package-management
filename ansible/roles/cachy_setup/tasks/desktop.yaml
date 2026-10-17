@@ -1,0 +1,105 @@
+- name: Install Hyperpaper
+  become: true
+  community.general.pacman:
+    state: present
+    name:
+      - "hyprpaper"
+
+- name: Create Wallpaper Dir
+  ansible.builtin.file:
+    path: "{{ ansible_facts.user_dir }}/Pictures/Wallpapers" 
+    state: directory
+    recurse: yes
+
+- name: Copy Wallpapers to Pictures Dir
+  ansible.builtin.copy:
+    src: night-cloud.jpg
+    dest: "{{ ansible_facts.user_dir }}/Pictures/Wallpapers"
+
+- name: Hyperpaper Config
+  ansible.builtin.template:
+    dest: "{{ ansible_facts.user_dir }}/.config/hypr/hyprpaper.conf"
+    src: hyprpaper.conf.jinja
+
+- name: Restart Hyprpaper Service
+  ansible.builtin.systemd_service:
+    state: restarted
+    name: hyprpaper
+    scope: user
+
+######## Sunset ########
+
+- name: Install Nightmode
+  community.general.pacman:
+    name:
+      - "hyprsunset"
+
+- name: Setup Nightmode
+  ansible.builtin.copy:
+    src: hyprsunset.conf
+    dest: "{{ ansible_facts.user_dir }}/.config/hypr/hyprsunset.conf"
+
+- name: Restart Nightmode Service
+  ansible.builtin.systemd_service:
+    name: hyprsunset
+    state: restarted
+    scope: user
+
+######## Waybar ########
+- name: Install Waybar
+  become: true
+  community.general.pacman:
+    name:
+      - "waybar"
+      - "swaync"
+
+- name: Clean Git Dir
+  ansible.builtin.file:
+    dest: /tmp/waybar-dotfiles
+    state: absent
+
+- name: Create Git Dir
+  ansible.builtin.file:
+    dest: /tmp/waybar-dotfiles
+    state: directory
+
+- name: Clone Repo with Waybar Config
+  ansible.builtin.git:
+    repo: https://github.com/Zilero232/arch-install-kit.git
+    recursive: false
+    version: "a0079a16a4de2ab8851626e2b97826ad939f32b0"
+    dest: /tmp/waybar-dotfiles
+
+- name: Create Git Dir
+  ansible.builtin.file:
+    dest: "{{ ansible_facts.user_dir }}/.config/waybar"
+    state: directory
+
+- name: Copy Over Waybar Files
+  ansible.builtin.copy:
+    src: /tmp/waybar-dotfiles/dotfiles/.config/waybar
+    dest: "{{ ansible_facts.user_dir }}/.config/"
+
+- name: Restart Waybar Service
+  ansible.builtin.systemd_service:
+    name: waybar
+    state: restarted
+    scope: user    
+
+######## Notification Hub #########
+
+- name: Create Git Dir
+  ansible.builtin.file:
+    dest: "{{ ansible_facts.user_dir }}/.config/swaync"
+    state: directory
+
+- name: Copy Over Swaync File
+  ansible.builtin.copy:
+    src: swaync.json
+    dest: "{{ ansible_facts.user_dir }}/.config/swaync/config.json"
+
+- name: Restart Swaync Service
+  ansible.builtin.systemd_service:
+    name: swaync
+    state: restarted
+    scope: user    
