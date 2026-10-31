@@ -5,28 +5,17 @@
 #   ansible-playbook site.yml -e pm_command=configure
 #   ansible-playbook site.yml -e pm_command=container_stack -e container_action=start|stop|status
 
-- name: Select target hosts
+- name: Select target host
   hosts: localhost
   connection: local
-  gather_facts: false
-  vars:
-    # ---- Set this by hand. Any inventory host, group, or pattern, e.g. linux | mac | wsl | linux-desktop ----
-    target_hosts: cachy
+  gather_facts: true
   tasks:
-    - name: Resolve the selected hosts
-      ansible.builtin.set_fact:
-        _selected: "{{ query('inventory_hostnames', target_hosts) }}"
-
-    - name: Ensure the selection matches at least one host
-      ansible.builtin.assert:
-        that: _selected | length > 0
-        fail_msg: "target_hosts '{{ target_hosts }}' matched no hosts in the inventory."
-
-    - name: Add selected hosts to the run group
+    - name: Resolve Hostname to Group
       ansible.builtin.add_host:
-        name: "{{ item }}"
+        host: "{{ item }}"
         groups: pm_selected
-      loop: "{{ _selected }}"
+      with_inventory_hostnames:
+        - "{{ ansible_facts.hostname }}"
       changed_when: false
 
 - name: Package management
@@ -50,7 +39,7 @@
     - name: Run package command
       ansible.builtin.include_role:
         name: cachy_setup
-      when: pm_command == 'configure' and inventory_hostname == 'personal-cachy'
+      when: pm_command == 'configure' and inventory_hostname == 'cachy-laptop'
 
     - name: Run container stack command
       ansible.builtin.include_role:
