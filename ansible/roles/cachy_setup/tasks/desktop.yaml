@@ -60,6 +60,7 @@
       - "waybar"
       - "swaync"
       - "cava"
+      - "blueman" # Bluetooth Manager GUI
 
 - name: Make Themes Dir
   ansible.builtin.file:
