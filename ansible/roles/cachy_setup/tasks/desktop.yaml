@@ -59,6 +59,7 @@
     name:
       - "waybar"
       - "swaync"
+      - "cava"
 
 - name: Make Themes Dir
   ansible.builtin.file:
@@ -77,6 +78,14 @@
     src: waybar
     dest: "{{ ansible_facts.user_dir }}/.config/waybar"
     mode: u=rw,g=rw,o=r
+
+- name: Waybar Scripts Executable
+  ansible.builtin.file:
+    mode: u=rwx,g=rwx,o=r
+    dest: "{{ item }}"
+  with_fileglob:
+    - "{{ ansible_facts.user_dir }}/.config/waybar/scripts/*"
+
 
 - name: Stop Waybar Service
   ansible.builtin.systemd_service:
@@ -99,6 +108,13 @@
     src: swaync
     dest: "{{ ansible_facts.user_dir }}/.config/"
     mode: u=rw,g=rw,o=r
+
+- name: Swaync Scripts Executable
+  ansible.builtin.file:
+    mode: u=rwx,g=rwx,o=r
+    dest: "{{ item }}"
+  with_fileglob:
+    - "{{ ansible_facts.user_dir }}/.config/swaync/scripts/*"
 
 - name: Restart Swaync Service
   ansible.builtin.systemd_service:
@@ -155,3 +171,18 @@
     state: restarted
     scope: user
   changed_when: false
+
+
+######## App Launcher ############
+- name: Install App Launcher Related Packages
+  become: true
+  community.general.pacman:
+    name:
+      - rofi
+    state: present
+
+- name: Copy Over Rofi Config
+  ansible.builtin.copy:
+    src: rofi
+    dest: "{{ ansible_facts.user_dir }}/.config"
+    mode: u=rw,g=rw,o=r

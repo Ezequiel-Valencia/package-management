@@ -1,0 +1,142 @@
+/* Rofi theme: Kanagawa colors, fullscreen app grid.
+ * https://github.com/davatorium/rofi/blob/next/doc/rofi-theme.5.markdown */
+
+/* --- Colors --- */
+/* Rasi can't import CSS: the names and values copy ~/.config/theme/kanagawa.css */
+* {
+    sumiInk3: #1f1f28;
+    sumiInk4: #2a2a37;
+    sumiInk6: #54546d;
+    fujiWhite: #dcd7ba;
+    fujiGray: #727169;
+    sakuraPink: #d27e99;
+
+    bg: #1f1f28ee;            /* sumiInk3 at 93% */
+    bg-alt: @sumiInk4;
+    line: @sumiInk6;
+    bg-selected: @sakuraPink; /* the accent-alt role, as on the bar and in wlogout */
+    fg: @fujiWhite;
+    fg-alt: @fujiGray;
+    fg-selected: @sumiInk3;
+
+    /* Reset rofi defaults */
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+/* --- Window --- */
+window {
+    fullscreen: true;
+    transparency: "real";
+    background-color: @bg;
+    padding: 90px 150px;
+}
+
+mainbox {
+    padding: 20px;
+    background-color: transparent;
+}
+
+/* --- Search bar --- */
+inputbar {
+    background-color: @bg-alt;
+    padding: 12px;
+    margin: 0px 0px 20px 0px;
+    border-radius: 2px 16px 2px 16px;
+    font: "JetBrainsMono Nerd Font 20";
+    children: [prompt, entry];
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    placeholder-color: @fg-alt;
+    placeholder: "Type to search...";
+    padding: 4px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @fg;
+    padding: 4px;
+    margin: 0px 8px 0px 0px;
+}
+
+/* --- App grid --- */
+listview {
+    lines: 6;
+    columns: 5;
+    spacing: 20px;
+    fixed-columns: true;
+    background-color: transparent;
+}
+
+element {
+    orientation: vertical;
+    padding: 20px 10px;
+    border-radius: 2px 10px 2px 10px;
+    background-color: transparent;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @bg-selected;
+    text-color: @fg-selected;
+}
+
+element-icon {
+    size: 64px;
+    horizontal-align: 0.5;
+    background-color: transparent;
+}
+
+element-text {
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    background-color: transparent;
+    text-color: inherit;
+    margin: 8px 0px 0px 0px;
+}
+
+/* --- Mode switcher --- */
+mode-switcher {
+    spacing: 20px;
+    background-color: transparent;
+    margin: 20px 0px 0px 0px;
+}
+
+button {
+    padding: 8px 16px;
+    border-radius: 2px 10px 2px 10px;
+    background-color: @bg-alt;
+    text-color: @fg;
+    vertical-align: 0.5;
+    horizontal-align: 0.5;
+}
+
+button selected {
+    background-color: @bg-selected;
+    text-color: @fg-selected;
+}
+
+/* --- Scrollbar --- */
+scrollbar {
+    width: 4px;
+    border: 0;
+    handle-width: 8px;
+    padding: 0;
+    handle-color: @bg-selected;
+    background-color: @bg-alt;
+    margin: 0px 0px 0px 10px;
+}
