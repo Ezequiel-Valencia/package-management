@@ -1,0 +1,83 @@
+# ~/.config/hypr/hyprlock.conf
+# https://github.com/hyprwm/hyprlock/blob/main/assets/example.conf
+
+general {
+    hide_cursor = true
+    ignore_empty_input = true      # pressing Enter on an empty field does nothing
+}
+
+# # Comment this block out if hyprlock reports an error on it (older versions)
+# animations {
+#     enabled = false                # no fades = less GPU work
+# }
+
+# ---------- BACKGROUND ----------
+background {
+    monitor = {{ main_monitor }}
+    color = rgba(1e1e2eff)         # solid dark background
+    # To use a wallpaper instead, uncomment:
+    path = ~/Pictures/Wallpapers/night-cloud.jpg
+    blur_passes = 2                # keep 0 for battery; 2-3 looks nicer with a wallpaper
+}
+
+# ---------- CLOCK ----------
+label {
+    monitor = {{ main_monitor }}
+    text = $TIME                   # use $TIME12 for 12-hour format
+    color = rgb(cdd6f4)
+    font_size = 96
+    font_family = Noto Sans
+    position = 0, 160
+    halign = center
+    valign = center
+}
+
+# ---------- DATE ----------
+label {
+    monitor = {{ main_monitor }}
+    text = cmd[update:60000] date +"%A, %d %B"
+    color = rgb(a6adc8)
+    font_size = 22
+    font_family = Noto Sans
+    position = 0, 70
+    halign = center
+    valign = center
+}
+
+# ---------- PASSWORD FIELD ----------
+input-field {
+    monitor = {{ main_monitor }}
+    size = 300, 50
+    outline_thickness = 2
+    rounding = 12
+
+    outer_color = rgb(89b4fa)      # border
+    inner_color = rgb(313244)      # field fill
+    font_color = rgb(cdd6f4)       # dots color
+    check_color = rgb(f9e2af)      # border while checking password
+    fail_color = rgb(f38ba8)       # border on wrong password
+
+    dots_size = 0.25
+    dots_spacing = 0.3
+    dots_center = true
+
+    fade_on_empty = false
+    placeholder_text = <i>Password...</i>
+    fail_text = <i>Wrong password ($ATTEMPTS)</i>
+
+    position = 0, -40
+    halign = center
+    valign = center
+}
+
+# ---------- GREETING ----------
+label {
+    monitor = {{ main_monitor }}
+    text = Hi, $USER
+    color = rgb(bac2de)
+    font_size = 16
+    font_family = Noto Sans
+    position = 0, -110
+    halign = center
+    valign = center
+}

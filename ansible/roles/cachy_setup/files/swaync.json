@@ -96,7 +96,7 @@
 				},
 				{
 					"label": "󰐥",
-					"command": "sh -c 'swaync-client -cp; ~/bin/power_menu.sh'"
+					"command": "sh -c 'swaync-client -cp; hyprshutdown'"
 				}
 			]
 		},

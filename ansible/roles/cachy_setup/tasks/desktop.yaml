@@ -7,25 +7,29 @@
 
 - name: Create Wallpaper Dir
   ansible.builtin.file:
-    path: "{{ ansible_facts.user_dir }}/Pictures/Wallpapers" 
+    path: "{{ ansible_facts.user_dir }}/Pictures/Wallpapers"
     state: directory
-    recurse: yes
+    recurse: true
+    mode: u=rwx,g=rwx,o=rx
 
 - name: Copy Wallpapers to Pictures Dir
   ansible.builtin.copy:
     src: night-cloud.jpg
     dest: "{{ ansible_facts.user_dir }}/Pictures/Wallpapers"
+    mode: u=rw,g=rw,o=r
 
 - name: Hyperpaper Config
   ansible.builtin.template:
     dest: "{{ ansible_facts.user_dir }}/.config/hypr/hyprpaper.conf"
     src: hyprpaper.conf.jinja
+    mode: u=rw,g=rw,o=r
 
 - name: Restart Hyprpaper Service
   ansible.builtin.systemd_service:
     state: restarted
     name: hyprpaper
     scope: user
+  changed_when: false
 
 ######## Sunset ########
 
@@ -38,12 +42,14 @@
   ansible.builtin.copy:
     src: hyprsunset.conf
     dest: "{{ ansible_facts.user_dir }}/.config/hypr/hyprsunset.conf"
+    mode: u=rw,g=rw,o=r
 
 - name: Restart Nightmode Service
   ansible.builtin.systemd_service:
     name: hyprsunset
     state: restarted
     scope: user
+  changed_when: false
 
 ######## Waybar ########
 - name: Install Waybar
@@ -62,6 +68,7 @@
   ansible.builtin.file:
     dest: /tmp/waybar-dotfiles
     state: directory
+    mode: u=rwx,g=rwx,o=rx
 
 - name: Clone Repo with Waybar Config
   ansible.builtin.git:
@@ -70,36 +77,98 @@
     version: "a0079a16a4de2ab8851626e2b97826ad939f32b0"
     dest: /tmp/waybar-dotfiles
 
-- name: Create Git Dir
+- name: Create Waybar Dir
   ansible.builtin.file:
     dest: "{{ ansible_facts.user_dir }}/.config/waybar"
     state: directory
+    mode: u=rwx,g=rwx,o=rx
 
 - name: Copy Over Waybar Files
   ansible.builtin.copy:
     src: /tmp/waybar-dotfiles/dotfiles/.config/waybar
     dest: "{{ ansible_facts.user_dir }}/.config/"
+    mode: u=rw,g=rw,o=r
 
-- name: Restart Waybar Service
+- name: Stop Waybar Service
   ansible.builtin.systemd_service:
     name: waybar
-    state: restarted
-    scope: user    
+    state: stopped
+    scope: user
+  changed_when: false
+
+- name: Start Waybar Service
+  ansible.builtin.systemd_service:
+    name: waybar
+    state: started
+    scope: user
+  changed_when: false
 
 ######## Notification Hub #########
 
-- name: Create Git Dir
+- name: Create Swaync Dir
   ansible.builtin.file:
     dest: "{{ ansible_facts.user_dir }}/.config/swaync"
     state: directory
+    mode: u=rwx,g=rwx,o=rx
 
 - name: Copy Over Swaync File
   ansible.builtin.copy:
     src: swaync.json
     dest: "{{ ansible_facts.user_dir }}/.config/swaync/config.json"
+    mode: u=rw,g=rw,o=r
 
 - name: Restart Swaync Service
   ansible.builtin.systemd_service:
     name: swaync
     state: restarted
-    scope: user    
+    scope: user
+  changed_when: false
+
+
+######## Hyprpicker ##########
+
+- name: Install Hyprpicker
+  become: true
+  community.general.pacman:
+    name:
+      - hyprpicker
+    state: present
+
+
+######### Shutdown ##########
+- name: Install Shutdown Client
+  become: true
+  community.general.pacman:
+    name:
+      - hyprshutdown
+    state: present
+
+######## Idle ##########
+
+
+- name: Install Idle Related Packages
+  become: true
+  community.general.pacman:
+    name:
+      - hypridle
+      - hyprlock
+    state: present
+
+- name: Copy Over Idle Config
+  ansible.builtin.copy:
+    src: hypridle.conf
+    dest: "{{ ansible_facts.user_dir }}/.config/hypr/hypridle.conf"
+    mode: u=rw,g=rw,o=r
+
+- name: Copy Over Lock Config
+  ansible.builtin.template:
+    src: hyprlock.conf.jinja
+    dest: "{{ ansible_facts.user_dir }}/.config/hypr/hyprlock.conf"
+    mode: u=rw,g=rw,o=r
+
+- name: Restart Hyperidle
+  ansible.builtin.systemd_service:
+    name: hypridle
+    state: restarted
+    scope: user
+  changed_when: false
