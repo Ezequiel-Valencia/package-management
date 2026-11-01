@@ -65,8 +65,8 @@
 				{
 					"label": "󰖔",
 					"type": "toggle",
-					"command": "sh -c 'if [ \"$SWAYNC_TOGGLE_STATE\" = true ]; then hyprctl hyprsunset temperature 3000; else hyprctl hyprsunset temperature 6000 && hyprctl hyprsunset identity; fi'",
-					"update-command": "sh -c 'if [ \"$(hyprctl hyprsunset temperature)\" -lt 6000 ] 2>/dev/null; then echo true; else echo false; fi'"
+					"command": "sh -c '~/.config/swaync/scripts/nightlight.sh'",
+					"update-command": "sh -c '~/.config/swaync/scripts/nightlight.sh status'"
 				},
 				{
 					"label": "󰍭",
@@ -122,10 +122,8 @@
 			"autohide": true,
 			"loop-carousel": true,
 			"blacklist": [
-				"kew",
-				"firefox",
-				"spotify",
-				"playerctld"
+				"playerctld",
+				"firefox"
 			]
 		},
 		"notifications": {

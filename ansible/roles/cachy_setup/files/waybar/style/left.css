@@ -1,0 +1,60 @@
+/* Waybar left strip: kanji workspaces, media player and visualizer.
+ * https://github.com/Alexays/Waybar/wiki/Styling */
+
+/* --- Workspaces --- */
+#workspaces {
+  margin: 0 4px;
+}
+
+#workspaces button {
+  font-family: "Noto Serif CJK JP", serif;
+  font-weight: 700;
+  font-size: 15px;
+  min-width: 18px;
+  padding: 0 8px;
+  color: @text-muted;
+  background: transparent;
+  transition: color 200ms ease;
+}
+
+#workspaces button.empty {
+  color: alpha(@border, 0.9);
+}
+
+/* Active: brighter ink plus a tapered sakura brush stroke under the numeral */
+#workspaces button.active {
+  color: @text;
+  background-image: linear-gradient(to right, transparent 8%, @accent-alt 35%, alpha(@accent-alt, 0.6) 75%, transparent 95%);
+  background-size: 100% 2px;
+  background-position: center 85%;
+  background-repeat: no-repeat;
+}
+
+#workspaces button.urgent {
+  color: @waveRed;
+}
+
+#workspaces button:hover {
+  color: @text;
+  background-color: transparent;
+}
+
+/* --- Player --- */
+/* The 1px gradient is a short vertical divider on the left edge */
+#mpris {
+  color: @accent-alt;
+  background-image: linear-gradient(to bottom, transparent 28%, alpha(@border, 0.7) 28%, alpha(@border, 0.7) 72%, transparent 72%);
+  background-size: 1px 100%;
+  background-position: left center;
+  background-repeat: no-repeat;
+  margin-left: 4px;
+  padding-left: 12px;
+}
+
+#mpris.paused {
+  color: @text-muted;
+}
+
+#custom-cava {
+  color: alpha(@accent-alt, 0.7);
+}

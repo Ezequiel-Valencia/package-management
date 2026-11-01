@@ -1,0 +1,10 @@
+/* Waybar style (Kanagawa, "Ukiyo-e"): paper strips with one sharp and one
+ * brushed corner, kanji workspaces and ink-stroke accents.
+ * https://github.com/Alexays/Waybar/wiki/Styling */
+
+/* Order matters: later files override earlier ones */
+@import url("../themes/kanagawa.css");
+@import url("style/base.css");
+@import url("style/left.css");
+@import url("style/center.css");
+@import url("style/right.css");

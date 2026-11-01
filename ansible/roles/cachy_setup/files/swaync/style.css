@@ -1,0 +1,11 @@
+/* SwayNC notifications and control center ("Ukiyo-e", matching Waybar: one sharp and one
+ * brushed corner, serif titles with an ink stroke underneath; Kanagawa colors, GTK 4 CSS).
+ * https://github.com/ErikReider/SwayNotificationCenter/blob/main/data/style/style.scss */
+
+/* Order matters: later files override earlier ones */
+@import url("../themes/kanagawa.css");
+@import url("style/base.css");
+@import url("style/notifications.css");
+@import url("style/control-center.css");
+@import url("style/widgets.css");
+@import url("style/mpris.css");

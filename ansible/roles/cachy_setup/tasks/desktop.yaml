@@ -52,6 +52,7 @@
   changed_when: false
 
 ######## Waybar ########
+# https://github.com/Zilero232/arch-install-kit.git
 - name: Install Waybar
   become: true
   community.general.pacman:
@@ -59,34 +60,22 @@
       - "waybar"
       - "swaync"
 
-- name: Clean Git Dir
+- name: Make Themes Dir
   ansible.builtin.file:
-    dest: /tmp/waybar-dotfiles
-    state: absent
-
-- name: Create Git Dir
-  ansible.builtin.file:
-    dest: /tmp/waybar-dotfiles
+    dest: "{{ ansible_facts.user_dir }}/.config/themes"
+    mode: u=rwx,g=rwx,o=r
     state: directory
-    mode: u=rwx,g=rwx,o=rx
 
-- name: Clone Repo with Waybar Config
-  ansible.builtin.git:
-    repo: https://github.com/Zilero232/arch-install-kit.git
-    recursive: false
-    version: "a0079a16a4de2ab8851626e2b97826ad939f32b0"
-    dest: /tmp/waybar-dotfiles
-
-- name: Create Waybar Dir
-  ansible.builtin.file:
-    dest: "{{ ansible_facts.user_dir }}/.config/waybar"
-    state: directory
-    mode: u=rwx,g=rwx,o=rx
+- name: Copy Over Base CSS
+  ansible.builtin.copy:
+    src: kanagawa.css
+    dest: "{{ ansible_facts.user_dir }}/.config/themes/kanagawa.css"
+    mode: u=rw,g=rw,o=r
 
 - name: Copy Over Waybar Files
   ansible.builtin.copy:
-    src: /tmp/waybar-dotfiles/dotfiles/.config/waybar
-    dest: "{{ ansible_facts.user_dir }}/.config/"
+    src: waybar
+    dest: "{{ ansible_facts.user_dir }}/.config/waybar"
     mode: u=rw,g=rw,o=r
 
 - name: Stop Waybar Service
@@ -105,16 +94,10 @@
 
 ######## Notification Hub #########
 
-- name: Create Swaync Dir
-  ansible.builtin.file:
-    dest: "{{ ansible_facts.user_dir }}/.config/swaync"
-    state: directory
-    mode: u=rwx,g=rwx,o=rx
-
 - name: Copy Over Swaync File
   ansible.builtin.copy:
-    src: swaync.json
-    dest: "{{ ansible_facts.user_dir }}/.config/swaync/config.json"
+    src: swaync
+    dest: "{{ ansible_facts.user_dir }}/.config/"
     mode: u=rw,g=rw,o=r
 
 - name: Restart Swaync Service
