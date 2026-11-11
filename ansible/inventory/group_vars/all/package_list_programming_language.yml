@@ -1,0 +1,15 @@
+---
+package_list_programming_language:
+  - name: docker
+    type: CLI
+    managers:
+      PACMAN: docker
+    configure: docker
+  - name: docker build x
+    type: CLI
+    managers:
+      PACMAN: docker-buildx
+  - name: docker-compose
+    type: CLI
+    managers:
+      PACMAN: docker-compose

@@ -10,6 +10,6 @@ package_managers:
   LIBRARY: [PACMAN]
 
 # Package lists (group_vars/all/package_list_<name>.yml) this host installs.
-package_lists: [app_work, cli_work]
+package_lists: [app_work, cli_work, programming_language]
 
 main_monitor: eDP-1

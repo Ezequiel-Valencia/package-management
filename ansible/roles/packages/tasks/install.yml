@@ -38,9 +38,8 @@
   community.general.flatpak:
     name: "{{ item.package_name }}"
     remote: flathub
-    method: system
+    method: user
     state: present
-  become: true
   loop: "{{ packages_install | selectattr('manager', 'equalto', 'FLATPAK') | list }}"
   loop_control:
     label: "{{ item.name }} ({{ item.package_name }})"
