@@ -13,7 +13,7 @@
     packages_resolved: "{{ packages_resolved + [item | combine(_resolved)] }}"
   loop: "{{ packages_packages + packages_uninstall }}"
   loop_control:
-    label: "{{ item.name }}"
+    label: "{{ item.name }}: {{ _resolved }}"
   vars:
     _keys: "{{ item.managers | list }}"
     _candidates: "{{ package_managers[item.type] | select('in', _keys) | list }}"
