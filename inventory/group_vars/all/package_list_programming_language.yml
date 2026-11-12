@@ -5,20 +5,29 @@ package_list_programming_language:
     managers:
       PACMAN: docker
     configure: docker
+
   - name: docker build x
     type: CLI
     managers:
       PACMAN: docker-buildx
+
   - name: docker-compose
     type: CLI
     managers:
       PACMAN: docker-compose
+
   - name: fisher
     type: CLI
     managers:
       PACMAN: fisher
+
   - name: nvm
     type: CLI
     managers:
       FISHER: jorgebucaran/nvm.fish # https://github.com/jorgebucaran/nvm.fish
     configure: nvm
+
+  - name: terraform
+    type: CLI
+    managers:
+      PACMAN: terraform
