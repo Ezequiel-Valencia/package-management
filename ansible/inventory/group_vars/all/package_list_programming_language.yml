@@ -13,3 +13,12 @@ package_list_programming_language:
     type: CLI
     managers:
       PACMAN: docker-compose
+  - name: fisher
+    type: CLI
+    managers:
+      PACMAN: fisher
+  - name: nvm
+    type: CLI
+    managers:
+      FISHER: jorgebucaran/nvm.fish # https://github.com/jorgebucaran/nvm.fish
+    configure: nvm

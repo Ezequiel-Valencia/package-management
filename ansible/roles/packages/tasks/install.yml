@@ -68,6 +68,20 @@
   loop_control:
     label: "{{ item.name }} ({{ item.package_name }})"
 
+# fisher is a fish function, not a binary, so it has to run inside fish.
+- name: Install with fisher
+  ansible.builtin.command:
+    argv:
+      - fish
+      - -c
+      - fisher list | string match -q -- $argv[1]; and exit 0; fisher install $argv[1]; and echo PM_INSTALLED
+      - "{{ item.package_name }}"
+  loop: "{{ packages_install | selectattr('manager', 'equalto', 'FISHER') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+  register: packages_r_fisher_install
+  changed_when: "'PM_INSTALLED' in packages_r_fisher_install.stdout"
+
 - name: Configure newly installed packages
   ansible.builtin.include_tasks: "configure/{{ packages_pkg.configure }}.yml"
   loop: "{{ packages_install | selectattr('configure', 'defined') | list }}"

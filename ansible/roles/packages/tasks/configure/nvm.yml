@@ -1,0 +1,19 @@
+---
+# nvm.fish is a fish plugin, so everything here runs inside fish.
+- name: Set NVM default version to LTS
+  ansible.builtin.command:
+    argv:
+      - fish
+      - -c
+      - test "$nvm_default_version" = lts; and exit 0; set --universal nvm_default_version lts; and echo PM_CHANGED
+  register: packages_r_nvm_default
+  changed_when: "'PM_CHANGED' in packages_r_nvm_default.stdout"
+
+- name: Install Node LTS with NVM
+  ansible.builtin.command:
+    argv:
+      - fish
+      - -c
+      - nvm list | string match -q -r 'lts/'; and exit 0; nvm install lts; and echo PM_CHANGED
+  register: packages_r_nvm_install
+  changed_when: "'PM_CHANGED' in packages_r_nvm_install.stdout"

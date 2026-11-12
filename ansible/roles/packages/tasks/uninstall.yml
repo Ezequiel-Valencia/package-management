@@ -70,3 +70,16 @@
     label: "{{ item.name }} ({{ item.package_name }})"
   register: packages_r_nix_remove
   changed_when: "'PM_REMOVED' in packages_r_nix_remove.stdout"
+
+- name: Uninstall with fisher
+  ansible.builtin.command:
+    argv:
+      - fish
+      - -c
+      - type -q fisher; or exit 0; fisher list | string match -q -- $argv[1]; or exit 0; fisher remove $argv[1]; and echo PM_REMOVED
+      - "{{ item.package_name }}"
+  loop: "{{ packages_remove | selectattr('manager', 'equalto', 'FISHER') | list }}"
+  loop_control:
+    label: "{{ item.name }} ({{ item.package_name }})"
+  register: packages_r_fisher_remove
+  changed_when: "'PM_REMOVED' in packages_r_fisher_remove.stdout"

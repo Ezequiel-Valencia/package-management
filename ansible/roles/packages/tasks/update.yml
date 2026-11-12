@@ -45,3 +45,8 @@
     state: upgrade_all
   when: "'PIPX' in packages_managers"
 
+- name: Update fisher plugins
+  ansible.builtin.command:
+    argv: [fish, -c, fisher update]
+  changed_when: false
+  when: packages_shell == 'fish'
