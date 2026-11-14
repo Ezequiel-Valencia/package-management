@@ -21,3 +21,17 @@
   community.general.nmcli:
     state: up
     conn_name: riley347-hl
+
+- name: Template Wireguard Configuration
+  become: true
+  ansible.builtin.template:
+    src: hl-wg.conf.jinja2
+    dest: /etc/NetworkManager/system-connections/hl-wg.nmconnection
+    mode: u=rw,o=,g=
+  no_log: true
+
+- name: Load WG Connection
+  become: true
+  ansible.builtin.command: >
+    nmcli connection load /etc/NetworkManager/system-connections/hl-wg.nmconnection
+  changed_when: false

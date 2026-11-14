@@ -1,0 +1,27 @@
+[connection]
+id=hl-wg0
+type=wireguard
+interface-name=hl-wg0
+autoconnect=false
+
+[wireguard]
+private-key={{ hl_wg_private_key }}
+
+[wireguard-peer.{{ hl_wg_peer_public_key }}]
+endpoint={{ hl_wg_peer_endpoint }}
+allowed-ips={{ hl_wg_peer_allowed_ips | join(';') }};
+{% if hl_wg_preshared_key is defined %}
+preshared-key={{ hl_wg_preshared_key }}
+preshared-key-flags=0
+{% endif %}
+
+[ipv4]
+method=manual
+address1={{ hl_wg_address }}
+{% if hl_wg_dns is defined %}
+dns={{ hl_wg_dns | join(';') }};
+dns-search=~;
+{% endif %}
+
+[ipv6]
+method=disabled
