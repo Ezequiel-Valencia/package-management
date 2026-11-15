@@ -60,6 +60,7 @@
       - "waybar"
       - "swaync"
       - "cava"
+      - "brightnessctl" # Brightness Manager
       - "blueman" # Bluetooth Manager GUI
 
 - name: Make Themes Dir
